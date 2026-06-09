@@ -870,21 +870,21 @@ hr.div{border:none;border-top:1px solid var(--border);margin:1rem 0}
 <div id="api" class="screen">
   <div class="page-eyebrow">Configurazione</div>
   <div class="page-title">🔑 Chiave API</div>
-  <div class="page-sub">Inserisci la tua chiave API Google Gemini per abilitare tutte le funzioni AI (correzione, simulazione, calcolo voto). La chiave è gratuita.</div>
+  <div class="page-sub">Inserisci la tua chiave API OpenRouter per abilitare tutte le funzioni AI. È gratuita e non ha limiti giornalieri stretti.</div>
   <div class="card">
-    <div class="card-title">API Key Google Gemini</div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:.75rem;line-height:1.7">La chiave è necessaria per l'AI. Ottienila gratuitamente su <strong>aistudio.google.com</strong>. Viene salvata solo nel tuo browser (localStorage) e non è mai inviata altrove.</p>
+    <div class="card-title">API Key OpenRouter</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:.75rem;line-height:1.7">Ottienila gratuitamente su <strong>openrouter.ai</strong>. Viene salvata solo nel tuo browser (localStorage) e non è mai inviata altrove.</p>
     <div style="display:flex;gap:8px;margin-bottom:.5rem">
-      <input type="password" class="field" id="api-input" placeholder="AQ.Ab8R..." style="font-family:var(--mono);font-size:13px">
+      <input type="password" class="field" id="api-input" placeholder="sk-or-v1-..." style="font-family:var(--mono);font-size:13px">
       <button class="btn btn-primary" onclick="saveApiKey()">Salva</button>
     </div>
     <div id="api-status" style="font-size:12px;color:var(--text3)"></div>
   </div>
   <div class="card" style="font-size:13px;color:var(--text2);line-height:1.75">
     <div class="card-title">Come ottenere la chiave (gratis)</div>
-    1. Vai su <strong style="color:var(--text)">aistudio.google.com</strong><br>
-    2. Accedi con il tuo account Google<br>
-    3. Clicca su <strong style="color:var(--text)">Get API key</strong> → <strong style="color:var(--text)">Create API key</strong><br>
+    1. Vai su <strong style="color:var(--text)">openrouter.ai</strong><br>
+    2. Registrati con Google<br>
+    3. Vai su <strong style="color:var(--text)">Keys</strong> → <strong style="color:var(--text)">Create Key</strong><br>
     4. Copia la chiave, incollala qui sopra e premi Salva<br><br>
     ⚠️ La chiave è privata — non condividerla con nessuno.
   </div>
@@ -1002,14 +1002,14 @@ function saveSt(){
 loadSt();
 
 // ═══════════════════════════════════════════════════════════════
-//  API — Gemini Flash (chiave salvata in localStorage)
+//  API — OpenRouter (chiave salvata in localStorage)
 // ═══════════════════════════════════════════════════════════════
-function getGeminiKey(){return localStorage.getItem('mat5L_gemini_key')||'';}
+function getApiKey(){return localStorage.getItem('mat5L_or_key')||'';}
 
 function updateApiDot(){
   const dot=document.getElementById('api-dot');
   const status=document.getElementById('api-status');
-  const k=getGeminiKey();
+  const k=getApiKey();
   if(dot)dot.style.background=k?'#4ade80':'#ef4444';
   if(status&&k)status.innerHTML='<span style="color:#4ade80">✓ Chiave salvata e attiva</span>';
 }
@@ -1019,39 +1019,34 @@ function saveApiKey(){
   const status=document.getElementById('api-status');
   const k=(inp?.value||'').trim();
   if(!k){status.innerHTML='<span style="color:#ef4444">Inserisci una chiave valida</span>';return;}
-  localStorage.setItem('mat5L_gemini_key',k);
+  localStorage.setItem('mat5L_or_key',k);
   inp.value='';
   status.innerHTML='<span style="color:#4ade80">✓ Chiave salvata con successo!</span>';
   updateApiDot();
 }
 
-// Mostra chiave esistente all'avvio
 (function(){
   updateApiDot();
   const inp=document.getElementById('api-input');
-  const k=getGeminiKey();
+  const k=getApiKey();
   if(inp&&k)inp.placeholder='(chiave già salvata — incollane una nuova per cambiarla)';
 })();
 
 async function callAI(messages,sys,maxTok=1500){
-  const GEMINI_KEY=getGeminiKey();
-  if(!GEMINI_KEY){throw new Error('⚠️ Chiave API mancante — vai su "Chiave API" nel menu e inserisci la tua chiave Google Gemini (gratuita su aistudio.google.com)');}
-
-  const geminiContents=messages.map(m=>({
-    role:m.role==='assistant'?'model':'user',
-    parts:[{text:m.content}]
-  }));
+  const KEY=getApiKey();
+  if(!KEY){throw new Error('⚠️ Chiave API mancante — vai su "Chiave API" nel menu e inserisci la tua chiave OpenRouter (gratuita su openrouter.ai)');}
 
   const body={
-    system_instruction:{parts:[{text:sys}]},
-    contents:geminiContents,
-    generationConfig:{maxOutputTokens:maxTok,temperature:0.7}
+    model:'meta-llama/llama-3.3-8b-instruct:free',
+    max_tokens:maxTok,
+    temperature:0.7,
+    messages:[{role:'system',content:sys},...messages]
   };
 
   let r;
   try{
-    r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
-      {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    r=await fetch('https://openrouter.ai/api/v1/chat/completions',
+      {method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY,'HTTP-Referer':'https://ayardyba06-dotcom.github.io','X-Title':'Maturita 5L'},body:JSON.stringify(body)});
   }catch(netErr){throw new Error('Errore di rete: verifica la connessione internet');}
 
   if(!r.ok){
@@ -1059,7 +1054,7 @@ async function callAI(messages,sys,maxTok=1500){
     throw new Error(e.error?.message||`Errore API ${r.status}`);
   }
   const d=await r.json();
-  const text=d.candidates?.[0]?.content?.parts?.[0]?.text;
+  const text=d.choices?.[0]?.message?.content;
   if(!text)throw new Error('Risposta AI vuota');
   return text;
 }
