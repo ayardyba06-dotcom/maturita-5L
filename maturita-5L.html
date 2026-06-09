@@ -1037,7 +1037,7 @@ async function callAI(messages,sys,maxTok=1500){
   if(!KEY){throw new Error('⚠️ Chiave API mancante — vai su "Chiave API" nel menu e inserisci la tua chiave OpenRouter (gratuita su openrouter.ai)');}
 
   const body={
-    model:'google/gemma-4-31b-it:free',
+    model:'deepseek/deepseek-r1:free',
     max_tokens:maxTok,
     temperature:0.7,
     messages:[{role:'system',content:sys},...messages]
