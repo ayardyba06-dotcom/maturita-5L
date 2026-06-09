@@ -1032,31 +1032,44 @@ function saveApiKey(){
   if(inp&&k)inp.placeholder='(chiave già salvata — incollane una nuova per cambiarla)';
 })();
 
+// 10 modelli gratuiti in rotazione automatica
+const FREE_MODELS=[
+  'deepseek/deepseek-r1:free',
+  'deepseek/deepseek-v3:free',
+  'google/gemma-4-31b-it:free',
+  'nvidia/nemotron-3-super-120b-a12b:free',
+  'openai/gpt-oss-120b:free',
+  'microsoft/mai-ds-r1:free',
+  'meta-llama/llama-4-maverick:free',
+  'meta-llama/llama-4-scout:free',
+  'qwen/qwen3-235b-a22b:free',
+  'mistralai/mistral-small-3.2-24b-instruct:free',
+];
+let _mIdx=parseInt(localStorage.getItem('mat5L_midx')||'0');
+
 async function callAI(messages,sys,maxTok=1500){
   const KEY=getApiKey();
   if(!KEY){throw new Error('⚠️ Chiave API mancante — vai su "Chiave API" nel menu e inserisci la tua chiave OpenRouter (gratuita su openrouter.ai)');}
-
-  const body={
-    model:'deepseek/deepseek-r1:free',
-    max_tokens:maxTok,
-    temperature:0.7,
-    messages:[{role:'system',content:sys},...messages]
-  };
-
-  let r;
-  try{
-    r=await fetch('https://openrouter.ai/api/v1/chat/completions',
-      {method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY,'HTTP-Referer':'https://ayardyba06-dotcom.github.io','X-Title':'Maturita 5L'},body:JSON.stringify(body)});
-  }catch(netErr){throw new Error('Errore di rete: verifica la connessione internet');}
-
-  if(!r.ok){
+  let lastErr='Errore sconosciuto';
+  for(let i=0;i<FREE_MODELS.length;i++){
+    const model=FREE_MODELS[_mIdx%FREE_MODELS.length];
+    const body={model,max_tokens:maxTok,temperature:0.7,messages:[{role:'system',content:sys},...messages]};
+    let r;
+    try{
+      r=await fetch('https://openrouter.ai/api/v1/chat/completions',
+        {method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY,'HTTP-Referer':'https://ayardyba06-dotcom.github.io','X-Title':'Maturita 5L'},body:JSON.stringify(body)});
+    }catch(netErr){throw new Error('Errore di rete: verifica la connessione internet');}
+    if(r.ok){
+      const d=await r.json();
+      const text=d.choices?.[0]?.message?.content;
+      if(text)return text;
+    }
     const e=await r.json().catch(()=>({}));
-    throw new Error(e.error?.message||`Errore API ${r.status}`);
+    lastErr=e.error?.message||'Errore '+r.status;
+    _mIdx=(_mIdx+1)%FREE_MODELS.length;
+    localStorage.setItem('mat5L_midx',_mIdx);
   }
-  const d=await r.json();
-  const text=d.choices?.[0]?.message?.content;
-  if(!text)throw new Error('Risposta AI vuota');
-  return text;
+  throw new Error('Tutti i modelli gratuiti sono esauriti per oggi. Riprova domani.');
 }
 
 // ═══════════════════════════════════════════════════════════════
