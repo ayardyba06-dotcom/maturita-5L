@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maturità 2026 · IISS Gravina 5L</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07080e;--bg1:#0c0e18;--bg2:#111422;--bg3:#161928;--bg4:#1c2033;--bg5:#222640;
+  --border:#1c2035;--border2:#262d47;--border3:#323b60;
+  --text:#eceef8;--text2:#8a90b5;--text3:#505878;--text4:#2c3254;
+  --ita:#e879f9;--ita-bg:#180820;--ita-b:#3a0d48;
+  --eng:#38bdf8;--eng-bg:#031420;--eng-b:#0b324e;
+  --tpse:#fb923c;--tpse-bg:#180b03;--tpse-b:#481e06;
+  --sis:#4ade80;--sis-bg:#031408;--sis-b:#0b3318;
+  --civ:#f59e0b;--civ-bg:#181000;--civ-b:#462d00;
+  --acc:#6366f1;--acc2:#818cf8;--acc-glow:rgba(99,102,241,.25);
+  --gold:#fbbf24;--gold-bg:#1a1200;--gold-b:#4a3200;
+  --r:10px;--rl:16px;--rxl:22px;
+  --font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* LAYOUT */
+.shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+@media(max-width:800px){.shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}}
+.sidebar{background:var(--bg1);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:50}
+@media(max-width:800px){.sidebar{position:fixed;left:0;top:0;bottom:0;width:250px;transform:translateX(-100%);transition:transform .25s ease}.sidebar.open{transform:translateX(0)}}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:49}.overlay.show{display:block}
+.topbar{display:none;padding:.75rem 1rem;background:var(--bg1);border-bottom:1px solid var(--border);align-items:center;gap:.75rem}
+@media(max-width:800px){.topbar{display:flex}}
+.main{background:var(--bg);min-height:100vh;display:flex;flex-direction:column}
+.content{flex:1;padding:2rem;max-width:900px;width:100%}
+@media(max-width:800px){.content{padding:1rem}}
+
+/* SIDEBAR */
+.sidebar-head{padding:1.5rem 1.25rem 1rem;border-bottom:1px solid var(--border)}
+.slogo{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:.2rem}
+.stitle{font-size:16px;font-weight:800;color:var(--text)}
+.ssub{font-size:11px;color:var(--text3);margin-top:2px}
+.nav-sec{padding:.8rem 1rem .2rem;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text4)}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 1.25rem;font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;border-left:2px solid transparent;user-select:none}
+.nav-item:hover{background:var(--bg2);color:var(--text);border-left-color:var(--border3)}
+.nav-item.active{background:var(--bg3);color:var(--text);border-left-color:var(--acc)}
+.nav-item svg{width:15px;height:15px;flex-shrink:0}
+.nav-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-left:auto}
+.sidebar-footer{margin-top:auto;padding:1rem;border-top:1px solid var(--border);font-size:11px;color:var(--text4);line-height:1.6}
+.total-score-mini{background:var(--gold-bg);border:1px solid var(--gold-b);border-radius:var(--r);padding:.6rem .75rem;margin-bottom:.5rem}
+.tsm-label{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.tsm-val{font-size:20px;font-weight:800;color:var(--gold);line-height:1.1}
+.tsm-sub{font-size:10px;color:var(--text3)}
+
+/* SCREENS */
+.screen{display:none}.screen.active{display:block;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* PAGE HEAD */
+.page-eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:.35rem}
+.page-title{font-size:24px;font-weight:800;color:var(--text);letter-spacing:-.02em;line-height:1.2;margin-bottom:.35rem}
+.page-sub{font-size:14px;color:var(--text2);line-height:1.65;margin-bottom:1.5rem}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:1.25rem;margin-bottom:1rem}
+.card-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:.5rem}
+.sec-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text4);margin-bottom:.6rem}
+
+/* BUTTONS */
+.btn{padding:8px 14px;border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;background:var(--bg3);color:var(--text2);font-size:13px;display:inline-flex;align-items:center;gap:6px;transition:all .15s;font-family:var(--font);white-space:nowrap;font-weight:500}
+.btn:hover:not(:disabled){background:var(--bg4);color:var(--text);border-color:var(--border3)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn-primary{background:var(--acc);color:#fff;border-color:var(--acc)}.btn-primary:hover:not(:disabled){background:#5052d4;border-color:#5052d4;color:#fff}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap}
+.btn-ita{background:var(--ita-bg);color:var(--ita);border-color:var(--ita-b)}
+.btn-eng{background:var(--eng-bg);color:var(--eng);border-color:var(--eng-b)}
+.btn-tpse{background:var(--tpse-bg);color:var(--tpse);border-color:var(--tpse-b)}
+.btn-sis{background:var(--sis-bg);color:var(--sis);border-color:var(--sis-b)}
+.btn-civ{background:var(--civ-bg);color:var(--civ);border-color:var(--civ-b)}
+.btn-gold{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-b)}
+
+/* BADGE */
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600;letter-spacing:.02em}
+.b-ita{background:var(--ita-bg);color:var(--ita);border:1px solid var(--ita-b)}
+.b-eng{background:var(--eng-bg);color:var(--eng);border:1px solid var(--eng-b)}
+.b-tpse{background:var(--tpse-bg);color:var(--tpse);border:1px solid var(--tpse-b)}
+.b-sis{background:var(--sis-bg);color:var(--sis);border:1px solid var(--sis-b)}
+.b-civ{background:var(--civ-bg);color:var(--civ);border:1px solid var(--civ-b)}
+.b-gold{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-b)}
+.b-acc{background:rgba(99,102,241,.15);color:var(--acc2);border:1px solid rgba(99,102,241,.3)}
+
+/* GRID */
+.materie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.75rem;margin-bottom:1.25rem}
+.mc{border-radius:var(--rl);padding:1.25rem;cursor:pointer;transition:all .2s;border:1px solid;position:relative;overflow:hidden}
+.mc:hover{transform:translateY(-2px)}
+.mc-icon{font-size:26px;margin-bottom:.65rem;display:block}
+.mc-name{font-size:15px;font-weight:700;margin-bottom:2px}
+.mc-tipo{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;opacity:.6}
+.mc-desc{font-size:12px;margin-top:.4rem;opacity:.65;line-height:1.5}
+.mc-ita{background:var(--ita-bg);border-color:var(--ita-b);color:var(--ita)}
+.mc-eng{background:var(--eng-bg);border-color:var(--eng-b);color:var(--eng)}
+.mc-tpse{background:var(--tpse-bg);border-color:var(--tpse-b);color:var(--tpse)}
+.mc-sis{background:var(--sis-bg);border-color:var(--sis-b);color:var(--sis)}
+.mc-civ{background:var(--civ-bg);border-color:var(--civ-b);color:var(--civ)}
+
+/* MODE GRID */
+.mode-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem;margin-bottom:1rem}
+.mode-card{border:1px solid var(--border);border-radius:var(--rl);padding:1rem;cursor:pointer;background:var(--bg2);transition:all .2s;text-align:left}
+.mode-card:hover{border-color:var(--border3);background:var(--bg3);transform:translateY(-1px)}
+.mode-card.sel{border-color:var(--acc);background:rgba(99,102,241,.1)}
+.mc2-icon{font-size:22px;margin-bottom:.5rem}
+.mc2-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.mc2-desc{font-size:12px;color:var(--text3);line-height:1.5}
+
+/* TOPIC GRID */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:7px;margin-bottom:.75rem}
+.topic-btn{padding:10px 12px;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;background:var(--bg2);text-align:left;font-size:13px;color:var(--text2);transition:all .15s;display:flex;flex-direction:column;gap:4px;font-family:var(--font)}
+.topic-btn:hover{border-color:var(--border3);background:var(--bg3);color:var(--text)}
+.topic-btn.sel{border-color:var(--acc);background:rgba(99,102,241,.12);color:var(--text)}
+.t-icon{font-size:16px}.t-name{font-size:13px;font-weight:500;color:var(--text)}
+
+/* CHAT */
+.chat-box{border:1px solid var(--border);border-radius:var(--rl);max-height:440px;overflow-y:auto;margin-bottom:.75rem;background:var(--bg1);padding:.75rem;scroll-behavior:smooth}
+.chat-box::-webkit-scrollbar{width:4px}.chat-box::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.chat-wrap{display:flex;flex-direction:column;gap:8px}
+.msg-user{background:var(--acc);color:#fff;padding:10px 14px;border-radius:16px 16px 4px 16px;font-size:13px;align-self:flex-end;max-width:80%;line-height:1.55}
+.msg-ai{background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:12px 14px;border-radius:4px 16px 16px 16px;font-size:13px;line-height:1.75;max-width:95%}
+.msg-ai strong{color:#a5b4fc}.msg-ai em{color:#fcd34d}.msg-ai code{background:var(--bg);padding:2px 6px;border-radius:5px;font-family:var(--mono);font-size:12px;color:#4ade80;border:1px solid var(--border2)}
+.msg-ai ul{padding-left:1.2rem;margin:.25rem 0}.msg-ai li{margin-bottom:.25rem}
+.msg-sys{background:var(--bg2);border:1px dashed var(--border3);color:var(--text3);padding:7px 12px;border-radius:var(--r);font-size:12px;align-self:center;text-align:center}
+.loading{display:flex;gap:4px;padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px 16px 16px 16px;width:60px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--text3);animation:bounce .9s infinite}
+.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.input-row{display:flex;gap:8px;margin-bottom:.75rem}
+.chat-input{flex:1;padding:10px 14px;border:1px solid var(--border2);border-radius:var(--r);background:var(--bg2);color:var(--text);font-size:13px;outline:none;transition:border-color .15s;font-family:var(--font)}
+.chat-input:focus{border-color:var(--acc)}
+.chat-input::placeholder{color:var(--text3)}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.75rem}
+.chip{padding:5px 11px;border:1px solid var(--border2);border-radius:20px;font-size:12px;color:var(--text2);background:var(--bg2);cursor:pointer;transition:all .15s;font-family:var(--font)}
+.chip:hover{border-color:var(--border3);color:var(--text);background:var(--bg3)}
+
+/* DIFF BUTTONS */
+.diff-row{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+.diff-btn{padding:7px 14px;border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;background:var(--bg2);color:var(--text2);font-size:13px;font-family:var(--font);transition:all .15s}
+.diff-btn:hover{background:var(--bg3);color:var(--text)}
+.diff-btn.active{border-color:var(--acc);background:rgba(99,102,241,.15);color:#a5b4fc}
+
+/* QUIZ */
+.quiz-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:1.25rem;margin-bottom:.75rem}
+.quiz-q{font-size:15px;font-weight:500;color:var(--text);margin-bottom:.9rem;line-height:1.6}
+.quiz-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--r);margin-bottom:6px;cursor:pointer;font-size:13px;color:var(--text2);background:var(--bg2);transition:all .15s;display:flex;align-items:flex-start;gap:10px;font-family:var(--font)}
+.quiz-opt:hover:not(.disabled){border-color:var(--border3);background:var(--bg3);color:var(--text)}
+.quiz-opt.correct{border-color:var(--sis);background:var(--sis-bg);color:var(--sis)}
+.quiz-opt.wrong{border-color:#ef4444;background:#3a0808;color:#fca5a5}
+.quiz-opt.disabled{cursor:not-allowed}
+.opt-letter{font-weight:700;min-width:18px;font-family:var(--mono)}
+.quiz-exp{margin-top:.75rem;padding:10px 12px;background:var(--bg1);border-radius:var(--r);border-left:3px solid var(--acc);font-size:12px;color:var(--text2);display:none;line-height:1.65}
+.quiz-exp.show{display:block}
+.score-bar{height:4px;background:var(--bg3);border-radius:2px;margin:5px 0 1rem}
+.score-fill{height:4px;border-radius:2px;background:var(--sis);transition:width .4s}
+.prog-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.prog-txt{font-size:12px;color:var(--text3)}
+
+/* LIVE DOT */
+.live{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#f87171}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#ef4444;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.25rem}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:1rem;text-align:center}
+.stat-n{font-size:26px;font-weight:800;color:var(--text)}
+.stat-l{font-size:11px;color:var(--text3);margin-top:3px;text-transform:uppercase;letter-spacing:.06em}
+
+/* HISTORY */
+.history-item{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;gap:8px;flex-wrap:wrap}
+.history-item:last-child{border-bottom:none}
+
+/* INPUT FIELD */
+.field{width:100%;padding:10px 13px;border:1px solid var(--border2);border-radius:var(--r);background:var(--bg2);color:var(--text);font-size:14px;outline:none;transition:border-color .15s;font-family:var(--font)}
+.field:focus{border-color:var(--acc)}
+.field::placeholder{color:var(--text3)}
+.field-sm{padding:7px 11px;font-size:13px}
+.field-label{font-size:12px;color:var(--text2);margin-bottom:.3rem;display:block}
+
+/* NUMBER INPUT SPIN */
+.num-input{width:90px;text-align:center;font-family:var(--mono);font-size:16px;font-weight:700}
+
+/* CREDITI SCREEN */
+.crediti-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1rem}
+@media(max-width:600px){.crediti-grid{grid-template-columns:1fr}}
+.crediti-anno{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:1rem;text-align:center}
+.ca-label{font-size:11px;color:var(--text3);margin-bottom:.4rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.ca-range{font-size:11px;color:var(--text4);margin-top:.3rem}
+
+/* SCORE BIG */
+.score-big{text-align:center;padding:1.5rem}
+.score-num{font-size:60px;font-weight:900;letter-spacing:-.04em;line-height:1}
+.score-denom{font-size:26px;color:var(--text3)}
+.score-label{font-size:15px;font-weight:600;margin-top:.5rem;color:var(--text2)}
+
+/* PUNTEGGIO TOTALE */
+.totale-box{background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(99,102,241,.05));border:1px solid rgba(99,102,241,.35);border-radius:var(--rxl);padding:1.5rem;margin-bottom:1rem;text-align:center}
+.tot-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--acc2);margin-bottom:.5rem}
+.tot-num{font-size:72px;font-weight:900;letter-spacing:-.04em;line-height:1;color:var(--text)}
+.tot-sub{font-size:15px;color:var(--text2);margin-top:.4rem}
+.tot-breakdown{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.5rem;margin-top:1rem}
+.tot-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:.6rem .8rem;text-align:center}
+.tot-item-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.tot-item-val{font-size:18px;font-weight:700;color:var(--text);margin-top:2px}
+
+/* PROVA SCRITTA */
+.prova-box{background:var(--bg1);border:1px solid var(--border2);border-radius:var(--rl);padding:1.25rem;margin-bottom:1rem;max-height:320px;overflow-y:auto;line-height:1.75;font-size:13px;color:var(--text2)}
+.prova-box h3{color:var(--text);font-size:14px;margin-bottom:.5rem}
+.prova-box strong{color:var(--acc2)}
+.prova-box em{color:var(--civ)}
+.analisi-box{background:var(--bg1);border:1px solid var(--border2);border-radius:var(--rl);padding:1.25rem;margin-bottom:1rem;line-height:1.75;font-size:13px;color:var(--text2)}
+.analisi-box strong{color:#a5b4fc}.analisi-box em{color:#fcd34d}
+
+/* MENSIONE / GRADE */
+.grade-pill{display:inline-block;padding:4px 14px;border-radius:20px;font-size:13px;font-weight:700}
+.grade-exc{background:#0d2d12;color:#4ade80;border:1px solid #1a6228}
+.grade-good{background:#1a2200;color:#a3e635;border:1px solid #3a5200}
+.grade-suf{background:#221a00;color:#fcd34d;border:1px solid #664e00}
+.grade-ins{background:#2d0c0c;color:#fca5a5;border:1px solid #6e1c1c}
+
+/* ACCORDION */
+.acc-item{border:1px solid var(--border);border-radius:var(--r);margin-bottom:.5rem;overflow:hidden}
+.acc-head{padding:10px 14px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);display:flex;align-items:center;justify-content:space-between;background:var(--bg2);transition:background .15s}
+.acc-head:hover{background:var(--bg3)}
+.acc-body{display:none;padding:10px 14px;font-size:13px;color:var(--text2);background:var(--bg1);border-top:1px solid var(--border);line-height:1.7}
+.acc-body.open{display:block}
+
+/* TOPBAR MOBILE */
+.menu-btn{background:none;border:none;color:var(--text2);cursor:pointer;padding:4px;display:flex}
+.menu-btn svg{width:20px;height:20px}
+.topbar-title{font-size:14px;font-weight:600;color:var(--text);flex:1}
+
+/* EMPTY */
+.empty{padding:2.5rem;text-align:center;color:var(--text3);font-size:13px}
+hr.div{border:none;border-top:1px solid var(--border);margin:1rem 0}
+
+/* WELCOME STEP */
+.welcome-card{background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(99,102,241,.04));border:1px solid rgba(99,102,241,.28);border-radius:var(--rxl);padding:2rem;text-align:center;margin-bottom:1.5rem}
+.welcome-emoji{font-size:56px;margin-bottom:.75rem}
+.welcome-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:.4rem}
+.welcome-sub{font-size:14px;color:var(--text2);line-height:1.65}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-head">
+    <div class="slogo">IISS Gravina · 5L</div>
+    <div class="stitle">Maturità 2026</div>
+    <div class="ssub">Elettronica ed Automazione</div>
+  </div>
+
+  <div style="padding:.75rem 1rem">
+    <div class="total-score-mini">
+      <div class="tsm-label">Punteggio totale</div>
+      <div class="tsm-val"><span id="sidebar-total">0</span><span style="font-size:13px;color:var(--text3);font-weight:400">/100</span></div>
+      <div class="tsm-sub">crediti + prove scritte + orale</div>
+    </div>
+  </div>
+
+  <div class="nav-sec">Start</div>
+  <div class="nav-item active" id="nav-home" onclick="nav('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Dashboard
+  </div>
+  <div class="nav-item" id="nav-crediti" onclick="nav('crediti')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Crediti scolastici
+    <div class="nav-dot" style="background:var(--gold)"></div>
+  </div>
+
+  <div class="nav-sec">Orale</div>
+  <div class="nav-item" id="nav-orale-ita" onclick="nav('orale-ita')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    Italiano
+    <div class="nav-dot" style="background:var(--ita)"></div>
+  </div>
+  <div class="nav-item" id="nav-orale-sis" onclick="nav('orale-sis')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+    Sistemi
+    <div class="nav-dot" style="background:var(--sis)"></div>
+  </div>
+  <div class="nav-item" id="nav-orale-tpse" onclick="nav('orale-tpse')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    TPSE
+    <div class="nav-dot" style="background:var(--tpse)"></div>
+  </div>
+  <div class="nav-item" id="nav-orale-eng" onclick="nav('orale-eng')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    Inglese
+    <div class="nav-dot" style="background:var(--eng)"></div>
+  </div>
+  <div class="nav-item" id="nav-orale-civ" onclick="nav('orale-civ')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21l1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></svg>
+    Ed. Civica
+    <div class="nav-dot" style="background:var(--civ)"></div>
+  </div>
+
+  <div class="nav-sec">Scritto</div>
+  <div class="nav-item" id="nav-scritto-ita" onclick="nav('scritto-ita')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    1ª Prova — Italiano
+    <div class="nav-dot" style="background:var(--ita)"></div>
+  </div>
+  <div class="nav-item" id="nav-scritto-tpse" onclick="nav('scritto-tpse')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    2ª Prova — TPSE
+    <div class="nav-dot" style="background:var(--tpse)"></div>
+  </div>
+
+  <div class="nav-sec">Statistiche</div>
+  <div class="nav-item" id="nav-totale" onclick="nav('totale')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    Punteggio Finale
+    <div class="nav-dot" style="background:var(--gold)"></div>
+  </div>
+  <div class="nav-item" id="nav-api" onclick="nav('api')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+    Chiave API
+    <div class="nav-dot" id="api-dot" style="background:#ef4444"></div>
+  </div>
+
+  <div class="sidebar-footer">v3.0 · Maturità 2026<br>IISS Gravina — 5L ETI</div>
+</nav>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- MAIN -->
+<main class="main">
+<div class="topbar">
+  <button class="menu-btn" onclick="toggleSidebar()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <span class="topbar-title" id="topbar-title">Dashboard</span>
+</div>
+<div class="content">
+
+<!-- ═══════════════════════════════════ HOME ═══════════════════════════════════ -->
+<div id="home" class="screen active">
+  <div class="welcome-card">
+    <div class="welcome-emoji">🎓</div>
+    <div class="welcome-title">Benvenuto all'Esame di Stato 2026</div>
+    <div class="welcome-sub">IISS Gravina · Classe 5L — Elettronica ed Automazione<br>Usa la sidebar per navigare tra ripasso, simulazioni orali, prove scritte e punteggio finale.</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-n" id="hs-crediti">–</div><div class="stat-l">Crediti (3 anni)</div></div>
+    <div class="stat-card"><div class="stat-n" id="hs-prove">0</div><div class="stat-l">Prove svolte</div></div>
+    <div class="stat-card"><div class="stat-n" id="hs-totale">0</div><div class="stat-l">Punti totali</div></div>
+  </div>
+
+  <div class="sec-label">Materie — Orale</div>
+  <div class="materie-grid">
+    <div class="mc mc-ita" onclick="nav('orale-ita')"><span class="mc-icon">📖</span><div class="mc-name">Italiano</div><div class="mc-tipo">Orale</div><div class="mc-desc">Letteratura, autori, correnti, testi — doc. 15 maggio</div></div>
+    <div class="mc mc-sis" onclick="nav('orale-sis')"><span class="mc-icon">⚙️</span><div class="mc-name">Sistemi</div><div class="mc-tipo">Orale</div><div class="mc-desc">Retroazione, PID, Bode, stabilità — doc. 15 maggio</div></div>
+    <div class="mc mc-tpse" onclick="nav('orale-tpse')"><span class="mc-icon">🔌</span><div class="mc-name">TPSE</div><div class="mc-tipo">Orale + Scritta</div><div class="mc-desc">Microcontrollori, DSP, PCB, sensori</div></div>
+    <div class="mc mc-eng" onclick="nav('orale-eng')"><span class="mc-icon">🌐</span><div class="mc-name">Inglese</div><div class="mc-tipo">Orale</div><div class="mc-desc">Literature, technical English, conversation</div></div>
+    <div class="mc mc-civ" onclick="nav('orale-civ')"><span class="mc-icon">🏛️</span><div class="mc-name">Ed. Civica</div><div class="mc-tipo">Orale</div><div class="mc-desc">Costituzione, diritti, sostenibilità, digitale</div></div>
+  </div>
+
+  <div class="sec-label">Prove scritte</div>
+  <div class="materie-grid">
+    <div class="mc mc-ita" onclick="nav('scritto-ita')"><span class="mc-icon">✍️</span><div class="mc-name">1ª Prova</div><div class="mc-tipo">Italiano scritto</div><div class="mc-desc">Tipologie A, B, C — genera + AI corregge</div></div>
+    <div class="mc mc-tpse" onclick="nav('scritto-tpse')"><span class="mc-icon">🔧</span><div class="mc-name">2ª Prova</div><div class="mc-tipo">TPSE ministeriale</div><div class="mc-desc">Progetto circuitale, digitale, sistemi</div></div>
+  </div>
+
+  <div class="sec-label">Punteggio finale</div>
+  <div class="mc" style="background:var(--gold-bg);border-color:var(--gold-b);color:var(--gold);cursor:pointer" onclick="nav('totale')">
+    <span class="mc-icon">🏆</span>
+    <div class="mc-name">Calcola il tuo voto finale</div>
+    <div class="mc-tipo" style="opacity:.6">Crediti + prove scritte + orale</div>
+    <div class="mc-desc" style="color:var(--text2)">Riepilogo completo con stima del voto AI</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ CREDITI ═══════════════════════════════════ -->
+<div id="crediti" class="screen">
+  <div class="page-eyebrow">Passo 1</div>
+  <div class="page-title">🎯 Crediti Scolastici</div>
+  <div class="page-sub">Inserisci i crediti che hai già accumulato nei tre anni. I crediti si sommano al punteggio delle prove scritte e dell'orale per il voto finale in centesimi.</div>
+
+  <div class="card">
+    <div class="sec-label">Crediti per anno (max: 3° anno = 11, 4° anno = 13, 5° anno = 15)</div>
+    <div class="crediti-grid">
+      <div class="crediti-anno">
+        <div class="ca-label">3° Anno</div>
+        <input type="number" class="field num-input" id="cr3" min="7" max="11" value="9" onchange="saveCrediti()">
+        <div class="ca-range">da 7 a 11</div>
+      </div>
+      <div class="crediti-anno">
+        <div class="ca-label">4° Anno</div>
+        <input type="number" class="field num-input" id="cr4" min="8" max="13" value="10" onchange="saveCrediti()">
+        <div class="ca-range">da 8 a 13</div>
+      </div>
+      <div class="crediti-anno">
+        <div class="ca-label">5° Anno</div>
+        <input type="number" class="field num-input" id="cr5" min="9" max="15" value="11" onchange="saveCrediti()">
+        <div class="ca-range">da 9 a 15</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:.75rem">
+      <span style="font-size:13px;color:var(--text2)">Totale crediti: </span>
+      <span id="cr-total" style="font-size:24px;font-weight:800;color:var(--gold)">30</span>
+      <span style="font-size:14px;color:var(--text3)">/40</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Come vengono calcolati i crediti</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.75">
+      I crediti scolastici (max 40 punti) si basano sulla media dei voti, sull'assiduità della frequenza, sull'interesse nelle attività integrative e su eventuali competenze certificate.<br><br>
+      <strong style="color:var(--text)">Il punteggio finale della maturità:</strong><br>
+      • Crediti scolastici: max <strong style="color:var(--gold)">40 punti</strong><br>
+      • Prima prova (Italiano): max <strong style="color:var(--ita)">20 punti</strong><br>
+      • Seconda prova (TPSE): max <strong style="color:var(--tpse)">20 punti</strong><br>
+      • Colloquio orale: max <strong style="color:var(--sis)">20 punti</strong><br>
+      • Bonus: fino a <strong style="color:var(--acc2)">5 punti</strong> aggiuntivi<br><br>
+      <strong style="color:var(--gold)">Totale: 100 punti</strong> — la lode si assegna con 100/100.
+    </div>
+  </div>
+
+  <button class="btn btn-gold" onclick="saveCrediti();nav('home')">✅ Salva e torna alla dashboard</button>
+</div>
+
+<!-- ═══════════════════════════════════ ORALE ITALIANO ═══════════════════════════════════ -->
+<div id="orale-ita" class="screen">
+  <div class="page-eyebrow" style="color:var(--ita)">Simulazione Orale</div>
+  <div class="page-title">📖 Italiano — Colloquio</div>
+  <div class="page-sub">Argomenti dal Documento del 15 maggio — IISS Gravina. Scegli modalità e argomento.</div>
+
+  <div id="ita-mode-sel">
+    <div class="sec-label">Modalità</div>
+    <div class="mode-grid">
+      <div class="mode-card" id="ita-m-rip" onclick="selMode('ita','ripasso')">
+        <div class="mc2-icon">📚</div>
+        <div class="mc2-title">Ripassa</div>
+        <div class="mc2-desc">L'AI spiega l'argomento, risponde alle tue domande</div>
+      </div>
+      <div class="mode-card" id="ita-m-prova" onclick="selMode('ita','prova')">
+        <div class="mc2-icon">❓</div>
+        <div class="mc2-title">Mettiti alla prova</div>
+        <div class="mc2-desc">Quiz a scelta multipla sull'argomento scelto</div>
+      </div>
+      <div class="mode-card" id="ita-m-orale" onclick="selMode('ita','orale')">
+        <div class="mc2-icon">🎤</div>
+        <div class="mc2-title">Esame orale</div>
+        <div class="mc2-desc">Simula l'interrogazione con la commissione</div>
+      </div>
+    </div>
+    <div class="sec-label">Argomento (doc. 15 maggio)</div>
+    <div class="topic-grid" id="ita-topics"></div>
+    <div class="sec-label" style="margin-top:.75rem">Difficoltà</div>
+    <div class="diff-row">
+      <button class="diff-btn active" id="ita-diff-std" onclick="setDiff('ita','standard')">📚 Standard</button>
+      <button class="diff-btn" id="ita-diff-hard" onclick="setDiff('ita','difficile')">🔥 Difficile</button>
+      <button class="diff-btn" id="ita-diff-easy" onclick="setDiff('ita','facile')">🌱 Facile</button>
+    </div>
+    <button class="btn btn-ita" onclick="startSession('ita')">▶ Inizia sessione</button>
+  </div>
+
+  <div id="ita-session" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="live"><span class="live-dot"></span>In corso</span>
+        <span class="badge b-ita" id="ita-mode-badge"></span>
+        <span class="badge b-ita" id="ita-topic-badge"></span>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-sm" onclick="endSession('ita')">📋 Valutazione</button>
+        <button class="btn btn-sm" onclick="resetSession('ita')">↺ Nuova</button>
+      </div>
+    </div>
+    <div id="ita-quiz-area"></div>
+    <div class="chat-box" id="ita-messages" style="display:none"><div class="chat-wrap" id="ita-wrap"></div></div>
+    <div class="input-row" id="ita-input-row" style="display:none">
+      <input class="chat-input" id="ita-input" placeholder="La tua risposta..." onkeydown="if(event.key==='Enter')sendChat('ita')">
+      <button class="btn btn-ita" onclick="sendChat('ita')">Invia</button>
+    </div>
+    <div class="chips" id="ita-chips" style="display:none">
+      <span class="chip" onclick="quickChat('ita','Non ho capito, puoi riformulare?')">↺ Riformula</span>
+      <span class="chip" onclick="quickChat('ita','Puoi darmi un suggerimento?')">💡 Suggerimento</span>
+      <span class="chip" onclick="quickChat('ita','Spiegami meglio questo concetto')">📖 Spiegazione</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ ORALE SISTEMI ═══════════════════════════════════ -->
+<div id="orale-sis" class="screen">
+  <div class="page-eyebrow" style="color:var(--sis)">Simulazione Orale</div>
+  <div class="page-title">⚙️ Sistemi Automatici</div>
+  <div class="page-sub">Retroazione, regolatori PID, stabilità, diagrammi di Bode — argomenti dal doc. 15 maggio.</div>
+
+  <div id="sis-mode-sel">
+    <div class="sec-label">Modalità</div>
+    <div class="mode-grid">
+      <div class="mode-card" id="sis-m-rip" onclick="selMode('sis','ripasso')"><div class="mc2-icon">📚</div><div class="mc2-title">Ripassa</div><div class="mc2-desc">L'AI spiega l'argomento e risponde alle domande</div></div>
+      <div class="mode-card" id="sis-m-prova" onclick="selMode('sis','prova')"><div class="mc2-icon">❓</div><div class="mc2-title">Mettiti alla prova</div><div class="mc2-desc">Quiz a scelta multipla con spiegazione AI</div></div>
+      <div class="mode-card" id="sis-m-orale" onclick="selMode('sis','orale')"><div class="mc2-icon">🎤</div><div class="mc2-title">Esame orale</div><div class="mc2-desc">Simula l'interrogazione con la commissione</div></div>
+    </div>
+    <div class="sec-label">Argomento (doc. 15 maggio)</div>
+    <div class="topic-grid" id="sis-topics"></div>
+    <div class="sec-label" style="margin-top:.75rem">Difficoltà</div>
+    <div class="diff-row">
+      <button class="diff-btn active" id="sis-diff-std" onclick="setDiff('sis','standard')">📚 Standard</button>
+      <button class="diff-btn" id="sis-diff-hard" onclick="setDiff('sis','difficile')">🔥 Difficile</button>
+      <button class="diff-btn" id="sis-diff-easy" onclick="setDiff('sis','facile')">🌱 Facile</button>
+    </div>
+    <button class="btn btn-sis" onclick="startSession('sis')">▶ Inizia sessione</button>
+  </div>
+
+  <div id="sis-session" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="live"><span class="live-dot"></span>In corso</span>
+        <span class="badge b-sis" id="sis-mode-badge"></span>
+        <span class="badge b-sis" id="sis-topic-badge"></span>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-sm" onclick="endSession('sis')">📋 Valutazione</button>
+        <button class="btn btn-sm" onclick="resetSession('sis')">↺ Nuova</button>
+      </div>
+    </div>
+    <div id="sis-quiz-area"></div>
+    <div class="chat-box" id="sis-messages" style="display:none"><div class="chat-wrap" id="sis-wrap"></div></div>
+    <div class="input-row" id="sis-input-row" style="display:none">
+      <input class="chat-input" id="sis-input" placeholder="La tua risposta..." onkeydown="if(event.key==='Enter')sendChat('sis')">
+      <button class="btn btn-sis" onclick="sendChat('sis')">Invia</button>
+    </div>
+    <div class="chips" id="sis-chips" style="display:none">
+      <span class="chip" onclick="quickChat('sis','Non ho capito, puoi riformulare?')">↺ Riformula</span>
+      <span class="chip" onclick="quickChat('sis','Puoi darmi un suggerimento?')">💡 Suggerimento</span>
+      <span class="chip" onclick="quickChat('sis','Fammi un esempio numerico')">🔢 Esempio</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ ORALE TPSE ═══════════════════════════════════ -->
+<div id="orale-tpse" class="screen">
+  <div class="page-eyebrow" style="color:var(--tpse)">Simulazione Orale</div>
+  <div class="page-title">🔌 TPSE — Tecnologie e Progettazione</div>
+  <div class="page-sub">Microcontrollori, bus di comunicazione, elaborazione segnali, PCB, trasduttori — doc. 15 maggio.</div>
+
+  <div id="tpse-mode-sel">
+    <div class="sec-label">Modalità</div>
+    <div class="mode-grid">
+      <div class="mode-card" id="tpse-m-rip" onclick="selMode('tpse','ripasso')"><div class="mc2-icon">📚</div><div class="mc2-title">Ripassa</div><div class="mc2-desc">L'AI spiega l'argomento</div></div>
+      <div class="mode-card" id="tpse-m-prova" onclick="selMode('tpse','prova')"><div class="mc2-icon">❓</div><div class="mc2-title">Mettiti alla prova</div><div class="mc2-desc">Quiz a scelta multipla</div></div>
+      <div class="mode-card" id="tpse-m-orale" onclick="selMode('tpse','orale')"><div class="mc2-icon">🎤</div><div class="mc2-title">Esame orale</div><div class="mc2-desc">Interrogazione con commissione</div></div>
+    </div>
+    <div class="sec-label">Argomento (doc. 15 maggio)</div>
+    <div class="topic-grid" id="tpse-topics"></div>
+    <div class="sec-label" style="margin-top:.75rem">Difficoltà</div>
+    <div class="diff-row">
+      <button class="diff-btn active" id="tpse-diff-std" onclick="setDiff('tpse','standard')">📚 Standard</button>
+      <button class="diff-btn" id="tpse-diff-hard" onclick="setDiff('tpse','difficile')">🔥 Difficile</button>
+      <button class="diff-btn" id="tpse-diff-easy" onclick="setDiff('tpse','facile')">🌱 Facile</button>
+    </div>
+    <button class="btn btn-tpse" onclick="startSession('tpse')">▶ Inizia sessione</button>
+  </div>
+
+  <div id="tpse-session" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="live"><span class="live-dot"></span>In corso</span>
+        <span class="badge b-tpse" id="tpse-mode-badge"></span>
+        <span class="badge b-tpse" id="tpse-topic-badge"></span>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-sm" onclick="endSession('tpse')">📋 Valutazione</button>
+        <button class="btn btn-sm" onclick="resetSession('tpse')">↺ Nuova</button>
+      </div>
+    </div>
+    <div id="tpse-quiz-area"></div>
+    <div class="chat-box" id="tpse-messages" style="display:none"><div class="chat-wrap" id="tpse-wrap"></div></div>
+    <div class="input-row" id="tpse-input-row" style="display:none">
+      <input class="chat-input" id="tpse-input" placeholder="La tua risposta..." onkeydown="if(event.key==='Enter')sendChat('tpse')">
+      <button class="btn btn-tpse" onclick="sendChat('tpse')">Invia</button>
+    </div>
+    <div class="chips" id="tpse-chips" style="display:none">
+      <span class="chip" onclick="quickChat('tpse','Non ho capito, puoi riformulare?')">↺ Riformula</span>
+      <span class="chip" onclick="quickChat('tpse','Dammi un suggerimento')">💡 Suggerimento</span>
+      <span class="chip" onclick="quickChat('tpse','Passa a un argomento correlato')">→ Prossimo</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ ORALE INGLESE ═══════════════════════════════════ -->
+<div id="orale-eng" class="screen">
+  <div class="page-eyebrow" style="color:var(--eng)">Oral Simulation</div>
+  <div class="page-title">🌐 English — Oral Exam</div>
+  <div class="page-sub">Literature, technical English and general topics — from the 15 maggio document.</div>
+
+  <div id="eng-mode-sel">
+    <div class="sec-label">Mode</div>
+    <div class="mode-grid">
+      <div class="mode-card" id="eng-m-rip" onclick="selMode('eng','ripasso')"><div class="mc2-icon">📚</div><div class="mc2-title">Study</div><div class="mc2-desc">AI explains the topic, answers your questions</div></div>
+      <div class="mode-card" id="eng-m-prova" onclick="selMode('eng','prova')"><div class="mc2-icon">❓</div><div class="mc2-title">Test yourself</div><div class="mc2-desc">Multiple choice quiz with AI feedback</div></div>
+      <div class="mode-card" id="eng-m-orale" onclick="selMode('eng','orale')"><div class="mc2-icon">🎤</div><div class="mc2-title">Oral exam</div><div class="mc2-desc">Simulate the oral with the commission</div></div>
+    </div>
+    <div class="sec-label">Topic (from the 15 maggio document)</div>
+    <div class="topic-grid" id="eng-topics"></div>
+    <div class="sec-label" style="margin-top:.75rem">Difficulty</div>
+    <div class="diff-row">
+      <button class="diff-btn active" id="eng-diff-std" onclick="setDiff('eng','standard')">📚 Standard</button>
+      <button class="diff-btn" id="eng-diff-hard" onclick="setDiff('eng','difficile')">🔥 Hard</button>
+      <button class="diff-btn" id="eng-diff-easy" onclick="setDiff('eng','facile')">🌱 Easy</button>
+    </div>
+    <button class="btn btn-eng" onclick="startSession('eng')">▶ Start session</button>
+  </div>
+
+  <div id="eng-session" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="live"><span class="live-dot"></span>Live</span>
+        <span class="badge b-eng" id="eng-mode-badge"></span>
+        <span class="badge b-eng" id="eng-topic-badge"></span>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-sm" onclick="endSession('eng')">📋 Evaluation</button>
+        <button class="btn btn-sm" onclick="resetSession('eng')">↺ New</button>
+      </div>
+    </div>
+    <div id="eng-quiz-area"></div>
+    <div class="chat-box" id="eng-messages" style="display:none"><div class="chat-wrap" id="eng-wrap"></div></div>
+    <div class="input-row" id="eng-input-row" style="display:none">
+      <input class="chat-input" id="eng-input" placeholder="Your answer..." onkeydown="if(event.key==='Enter')sendChat('eng')">
+      <button class="btn btn-eng" onclick="sendChat('eng')">Send</button>
+    </div>
+    <div class="chips" id="eng-chips" style="display:none">
+      <span class="chip" onclick="quickChat('eng','Could you rephrase the question?')">↺ Rephrase</span>
+      <span class="chip" onclick="quickChat('eng','Can you give me a hint?')">💡 Hint</span>
+      <span class="chip" onclick="quickChat('eng','Move to the next topic')">→ Next</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ ORALE ED. CIVICA ═══════════════════════════════════ -->
+<div id="orale-civ" class="screen">
+  <div class="page-eyebrow" style="color:var(--civ)">Simulazione Orale</div>
+  <div class="page-title">🏛️ Educazione Civica</div>
+  <div class="page-sub">Costituzione italiana, diritti e doveri, sostenibilità, cittadinanza digitale — argomenti dal doc. 15 maggio.</div>
+
+  <div id="civ-mode-sel">
+    <div class="sec-label">Modalità</div>
+    <div class="mode-grid">
+      <div class="mode-card" id="civ-m-rip" onclick="selMode('civ','ripasso')"><div class="mc2-icon">📚</div><div class="mc2-title">Ripassa</div><div class="mc2-desc">L'AI spiega gli argomenti di ed. civica</div></div>
+      <div class="mode-card" id="civ-m-prova" onclick="selMode('civ','prova')"><div class="mc2-icon">❓</div><div class="mc2-title">Mettiti alla prova</div><div class="mc2-desc">Quiz a scelta multipla con AI</div></div>
+      <div class="mode-card" id="civ-m-orale" onclick="selMode('civ','orale')"><div class="mc2-icon">🎤</div><div class="mc2-title">Esame orale</div><div class="mc2-desc">Simula l'interrogazione su ed. civica</div></div>
+    </div>
+    <div class="sec-label">Argomento (doc. 15 maggio)</div>
+    <div class="topic-grid" id="civ-topics"></div>
+    <div class="sec-label" style="margin-top:.75rem">Difficoltà</div>
+    <div class="diff-row">
+      <button class="diff-btn active" id="civ-diff-std" onclick="setDiff('civ','standard')">📚 Standard</button>
+      <button class="diff-btn" id="civ-diff-hard" onclick="setDiff('civ','difficile')">🔥 Difficile</button>
+      <button class="diff-btn" id="civ-diff-easy" onclick="setDiff('civ','facile')">🌱 Facile</button>
+    </div>
+    <button class="btn btn-civ" onclick="startSession('civ')">▶ Inizia sessione</button>
+  </div>
+
+  <div id="civ-session" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="live"><span class="live-dot"></span>In corso</span>
+        <span class="badge b-civ" id="civ-mode-badge"></span>
+        <span class="badge b-civ" id="civ-topic-badge"></span>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-sm" onclick="endSession('civ')">📋 Valutazione</button>
+        <button class="btn btn-sm" onclick="resetSession('civ')">↺ Nuova</button>
+      </div>
+    </div>
+    <div id="civ-quiz-area"></div>
+    <div class="chat-box" id="civ-messages" style="display:none"><div class="chat-wrap" id="civ-wrap"></div></div>
+    <div class="input-row" id="civ-input-row" style="display:none">
+      <input class="chat-input" id="civ-input" placeholder="La tua risposta..." onkeydown="if(event.key==='Enter')sendChat('civ')">
+      <button class="btn btn-civ" onclick="sendChat('civ')">Invia</button>
+    </div>
+    <div class="chips" id="civ-chips" style="display:none">
+      <span class="chip" onclick="quickChat('civ','Non ho capito, puoi riformulare?')">↺ Riformula</span>
+      <span class="chip" onclick="quickChat('civ','Dammi un suggerimento')">💡 Suggerimento</span>
+      <span class="chip" onclick="quickChat('civ','Collegami questo tema alla Costituzione')">📜 Costituzione</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ SCRITTO ITALIANO ═══════════════════════════════════ -->
+<div id="scritto-ita" class="screen">
+  <div class="page-eyebrow" style="color:var(--ita)">Prima Prova Scritta</div>
+  <div class="page-title">✍️ Italiano — 1ª Prova</div>
+  <div class="page-sub">Genera una prova stile ministeriale 2026 basata su tracce degli anni precedenti. L'AI corregge il tuo elaborato e calcola il voto.</div>
+
+  <div id="sita-setup">
+    <div class="card">
+      <div class="sec-label">Tipologia di traccia</div>
+      <div class="mode-grid">
+        <div class="mode-card" id="sita-A" onclick="selScritto('ita','A')">
+          <div class="mc2-icon">📜</div><div class="mc2-title">Tipologia A</div>
+          <div class="mc2-desc">Analisi del testo letterario (poesia o prosa)</div>
+        </div>
+        <div class="mode-card" id="sita-B" onclick="selScritto('ita','B')">
+          <div class="mc2-icon">📰</div><div class="mc2-title">Tipologia B</div>
+          <div class="mc2-desc">Analisi e produzione testo argomentativo</div>
+        </div>
+        <div class="mode-card" id="sita-C" onclick="selScritto('ita','C')">
+          <div class="mc2-icon">💬</div><div class="mc2-title">Tipologia C</div>
+          <div class="mc2-desc">Riflessione critica espositivo-argomentativa</div>
+        </div>
+      </div>
+      <button class="btn btn-ita" onclick="startScritto('ita')">▶ Genera prova 2026</button>
+    </div>
+    <div class="card" style="font-size:13px;color:var(--text2);line-height:1.75">
+      <div class="card-title">📌 Prove degli anni passati — esempi tipici</div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">2024 — Tipologia A: Montale, "Meriggiare pallido e assorto" <span>▾</span></div>
+      <div class="acc-body">Analisi di "Meriggiare pallido e assorto" da Ossi di Seppia. Domande su: figure retoriche (metonimia, allitterazione), correlativo oggettivo, la poetica del male di vivere.</div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">2023 — Tipologia B: Tecnologia e umanità <span>▾</span></div>
+      <div class="acc-body">Testo argomentativo partendo da un articolo sull'impatto dell'intelligenza artificiale. Richiesta di tesi e antitesi con fonti documentali.</div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">2023 — Tipologia A: Svevo, "La Coscienza di Zeno" <span>▾</span></div>
+      <div class="acc-body">Analisi del brano dell'ultima sigaretta. Domande su: narratore inattendibile, il tempo della memoria, la psicoanalisi in Svevo.</div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">2022 — Tipologia C: Il valore della solidarietà <span>▾</span></div>
+      <div class="acc-body">Riflessione sul valore della solidarietà in riferimento alla pandemia COVID-19 e alla Costituzione italiana.</div></div>
+    </div>
+  </div>
+
+  <div id="sita-session" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px">
+      <span class="badge b-ita" id="sita-label">Italiano</span>
+      <button class="btn btn-sm" onclick="resetScritto('ita')">+ Nuova prova</button>
+    </div>
+    <div class="prova-box" id="sita-prova"><div class="loading" style="display:inline-flex"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    <div class="input-row">
+      <input class="chat-input" id="sita-input" placeholder="Scrivi il tuo elaborato (o parte di esso) e premi Invia per la correzione AI..." onkeydown="if(event.key==='Enter')sendScritto('ita')">
+      <button class="btn btn-ita" onclick="sendScritto('ita')">Invia</button>
+    </div>
+    <div class="chips">
+      <span class="chip" onclick="askScritto('ita','Correggimi e dimmi gli errori principali con voto in ventesimi')">✅ Correggimi + voto</span>
+      <span class="chip" onclick="askScritto('ita','Dammi suggerimenti per migliorare senza riscrivere tu')">💡 Suggerimenti</span>
+      <span class="chip" onclick="askScritto('ita','Mostrami un elaborato ben fatto per questa traccia con voto stimato')">👁 Esempio + voto</span>
+    </div>
+    <div class="analisi-box" id="sita-analisi" style="display:none"></div>
+    <div id="sita-voto-box" style="display:none">
+      <div class="card">
+        <div class="sec-label">Punteggio stimato AI — 1ª Prova</div>
+        <div class="score-big"><div class="score-num" id="sita-score">–</div><div class="score-denom">/20</div><div class="score-label" id="sita-grade-label">–</div></div>
+        <button class="btn btn-primary btn-sm" onclick="savePunteggioScritto('ita')">💾 Salva questo punteggio</button>
+      </div>
+    </div>
+    <div class="chat-box" id="sita-messages" style="margin-top:.75rem"><div class="chat-wrap" id="sita-wrap"></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ SCRITTO TPSE ═══════════════════════════════════ -->
+<div id="scritto-tpse" class="screen">
+  <div class="page-eyebrow" style="color:var(--tpse)">Seconda Prova Scritta</div>
+  <div class="page-title">🔧 TPSE — 2ª Prova</div>
+  <div class="page-sub">Genera una prova ministeriale 2026 su TPSE/elettronica. L'AI corregge la soluzione e assegna il punteggio in ventesimi.</div>
+
+  <div id="stpse-setup">
+    <div class="card">
+      <div class="sec-label">Tipo di problema</div>
+      <div class="mode-grid">
+        <div class="mode-card" id="stpse-amp" onclick="selScritto('tpse','amplificatori')"><div class="mc2-icon">〰️</div><div class="mc2-title">Amplificatori</div><div class="mc2-desc">BJT/FET, guadagno, risposta in frequenza</div></div>
+        <div class="mode-card" id="stpse-dig" onclick="selScritto('tpse','digitale')"><div class="mc2-icon">💾</div><div class="mc2-title">Digitale</div><div class="mc2-desc">Reti combinatorie/sequenziali, ADC/DAC, µC</div></div>
+        <div class="mode-card" id="stpse-op" onclick="selScritto('tpse','opamp')"><div class="mc2-icon">🔁</div><div class="mc2-title">Op-Amp</div><div class="mc2-desc">Configurazioni, filtri attivi, comparatori</div></div>
+        <div class="mode-card" id="stpse-prg" onclick="selScritto('tpse','progetto')"><div class="mc2-icon">🏗️</div><div class="mc2-title">Progetto sistema</div><div class="mc2-desc">Progettazione completa con specifiche</div></div>
+        <div class="mode-card" id="stpse-mix" onclick="selScritto('tpse','mista')"><div class="mc2-icon">🧩</div><div class="mc2-title">Mista (stile ministeriale)</div><div class="mc2-desc">Più argomenti come nella prova reale</div></div>
+      </div>
+      <button class="btn btn-tpse" onclick="startScritto('tpse')">▶ Genera prova 2026</button>
+    </div>
+    <div class="card" style="font-size:13px;color:var(--text2);line-height:1.75">
+      <div class="card-title">📌 Prove degli anni passati — esempi tipici</div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">2024 — Amplificatore BF con BJT <span>▾</span></div>
+      <div class="acc-body">Progettazione di un amplificatore a emettitore comune con BJT NPN. Calcolo del punto di lavoro Q, guadagno di tensione, resistenza di ingresso/uscita e banda passante.</div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">2023 — Sistema di acquisizione dati <span>▾</span></div>
+      <div class="acc-body">Progetto di un sistema DAQ con sensore di temperatura PT100, amplificatore di strumentazione, ADC 12 bit e microcontrollore PIC. Calcolo LSB, SNR, frequenza di campionamento.</div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">2022 — Filtro attivo passa-basso + Op-Amp <span>▾</span></div>
+      <div class="acc-body">Progetto di un filtro Butterworth del 2° ordine con amplificatore operazionale. Calcolo dei componenti per fc = 1 kHz, risposta in frequenza, diagramma di Bode.</div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">2021 — Controllore PID digitale <span>▾</span></div>
+      <div class="acc-body">Dimensionamento di un regolatore PID per un sistema del 2° ordine. Analisi stabilità con Bode, calcolo margine di fase, discretizzazione con metodo Eulero.</div></div>
+    </div>
+  </div>
+
+  <div id="stpse-session" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px">
+      <span class="badge b-tpse" id="stpse-label">TPSE</span>
+      <button class="btn btn-sm" onclick="resetScritto('tpse')">+ Nuova prova</button>
+    </div>
+    <div class="prova-box" id="stpse-prova"><div class="loading" style="display:inline-flex"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+    <div class="input-row">
+      <input class="chat-input" id="stpse-input" placeholder="Scrivi la tua soluzione passo passo..." onkeydown="if(event.key==='Enter')sendScritto('tpse')">
+      <button class="btn btn-tpse" onclick="sendScritto('tpse')">Invia</button>
+    </div>
+    <div class="chips">
+      <span class="chip" onclick="askScritto('tpse','Correggimi la soluzione e assegnami un voto in ventesimi con griglia di valutazione')">✅ Correggimi + voto</span>
+      <span class="chip" onclick="askScritto('tpse','Dammi un suggerimento senza la soluzione completa')">💡 Suggerimento</span>
+      <span class="chip" onclick="askScritto('tpse','Mostrami la soluzione completa passo passo con voto massimo stimato')">👁 Soluzione + voto</span>
+    </div>
+    <div class="analisi-box" id="stpse-analisi" style="display:none"></div>
+    <div id="stpse-voto-box" style="display:none">
+      <div class="card">
+        <div class="sec-label">Punteggio stimato AI — 2ª Prova</div>
+        <div class="score-big"><div class="score-num" id="stpse-score">–</div><div class="score-denom">/20</div><div class="score-label" id="stpse-grade-label">–</div></div>
+        <button class="btn btn-primary btn-sm" onclick="savePunteggioScritto('tpse')">💾 Salva questo punteggio</button>
+      </div>
+    </div>
+    <div class="chat-box" id="stpse-messages" style="margin-top:.75rem"><div class="chat-wrap" id="stpse-wrap"></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ PUNTEGGIO TOTALE ═══════════════════════════════════ -->
+<div id="totale" class="screen">
+  <div class="page-eyebrow">Riepilogo</div>
+  <div class="page-title">🏆 Punteggio Finale</div>
+  <div class="page-sub">Riepilogo di tutti i tuoi punti. Il calcolo AI stima il tuo voto finale considerando crediti, prove scritte e orale.</div>
+
+  <div class="totale-box">
+    <div class="tot-label">Punteggio totale stimato</div>
+    <div class="tot-num"><span id="tot-grand">–</span><span style="font-size:28px;color:var(--text3);font-weight:400">/100</span></div>
+    <div class="tot-sub" id="tot-mention">–</div>
+    <div class="tot-breakdown">
+      <div class="tot-item"><div class="tot-item-label">Crediti</div><div class="tot-item-val" id="tot-cr" style="color:var(--gold)">–</div></div>
+      <div class="tot-item"><div class="tot-item-label">1ª Prova</div><div class="tot-item-val" id="tot-p1" style="color:var(--ita)">–</div></div>
+      <div class="tot-item"><div class="tot-item-label">2ª Prova</div><div class="tot-item-val" id="tot-p2" style="color:var(--tpse)">–</div></div>
+      <div class="tot-item"><div class="tot-item-label">Orale</div><div class="tot-item-val" id="tot-or" style="color:var(--sis)">–</div></div>
+      <div class="tot-item"><div class="tot-item-label">Bonus</div><div class="tot-item-val" id="tot-bonus" style="color:var(--acc2)">–</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-label">Inserisci manualmente (o viene calcolato dalle prove)</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.75rem;margin-bottom:.75rem">
+      <div><label class="field-label">1ª Prova /20</label><input type="number" class="field field-sm" id="man-p1" min="0" max="20" placeholder="–" oninput="ricalcolaTotale()"></div>
+      <div><label class="field-label">2ª Prova /20</label><input type="number" class="field field-sm" id="man-p2" min="0" max="20" placeholder="–" oninput="ricalcolaTotale()"></div>
+      <div><label class="field-label">Orale /20</label><input type="number" class="field field-sm" id="man-or" min="0" max="20" placeholder="–" oninput="ricalcolaTotale()"></div>
+      <div><label class="field-label">Bonus /5</label><input type="number" class="field field-sm" id="man-bonus" min="0" max="5" placeholder="0" oninput="ricalcolaTotale()" value="0"></div>
+    </div>
+    <button class="btn btn-primary" onclick="ricalcolaTotale()">🔄 Ricalcola</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🤖 Stima AI del voto finale</div>
+    <div id="tot-ai-box">
+      <button class="btn btn-gold" onclick="calcolaVotoAI()">✨ Calcola con AI</button>
+      <div class="hint" style="margin-top:.5rem">L'AI analizzerà i tuoi risultati e stimerà il voto con motivazione dettagliata.</div>
+    </div>
+    <div class="chat-box" id="tot-ai-chat" style="display:none"><div class="chat-wrap" id="tot-ai-wrap"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Storico prove</div>
+    <div id="tot-storico"><div class="empty">Nessuna prova salvata ancora.</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ API ═══════════════════════════════════ -->
+<div id="api" class="screen">
+  <div class="page-eyebrow">Configurazione</div>
+  <div class="page-title">🔑 Chiave API</div>
+  <div class="page-sub">Inserisci la tua chiave API Google Gemini per abilitare tutte le funzioni AI (correzione, simulazione, calcolo voto). La chiave è gratuita.</div>
+  <div class="card">
+    <div class="card-title">API Key Google Gemini</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:.75rem;line-height:1.7">La chiave è necessaria per l'AI. Ottienila gratuitamente su <strong>aistudio.google.com</strong>. Viene salvata solo nel tuo browser (localStorage) e non è mai inviata altrove.</p>
+    <div style="display:flex;gap:8px;margin-bottom:.5rem">
+      <input type="password" class="field" id="api-input" placeholder="AQ.Ab8R..." style="font-family:var(--mono);font-size:13px">
+      <button class="btn btn-primary" onclick="saveApiKey()">Salva</button>
+    </div>
+    <div id="api-status" style="font-size:12px;color:var(--text3)"></div>
+  </div>
+  <div class="card" style="font-size:13px;color:var(--text2);line-height:1.75">
+    <div class="card-title">Come ottenere la chiave (gratis)</div>
+    1. Vai su <strong style="color:var(--text)">aistudio.google.com</strong><br>
+    2. Accedi con il tuo account Google<br>
+    3. Clicca su <strong style="color:var(--text)">Get API key</strong> → <strong style="color:var(--text)">Create API key</strong><br>
+    4. Copia la chiave, incollala qui sopra e premi Salva<br><br>
+    ⚠️ La chiave è privata — non condividerla con nessuno.
+  </div>
+</div>
+
+</div><!-- /content -->
+</main>
+</div><!-- /shell -->
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  DATA — ARGOMENTI DA DOCUMENTO 15 MAGGIO IISS GRAVINA
+// ═══════════════════════════════════════════════════════════════
+const TOPICS = {
+  ita:[
+    {id:'positivismo',label:'Positivismo e Naturalismo',icon:'🏭'},
+    {id:'verismo',label:'Verismo e Verga',icon:'🌾'},
+    {id:'decadentismo',label:'Decadentismo europeo',icon:'🌹'},
+    {id:'pascoli',label:'Giovanni Pascoli',icon:'🐦'},
+    {id:'dannunzio',label:"Gabriele D'Annunzio",icon:'🦅'},
+    {id:'crepuscolarismo',label:'Crepuscolarismo e Futurismo',icon:'🌅'},
+    {id:'svevo',label:'Italo Svevo',icon:'🚬'},
+    {id:'pirandello',label:'Luigi Pirandello',icon:'🎭'},
+    {id:'ermetismo',label:'Ermetismo e Ungaretti',icon:'💧'},
+    {id:'montale',label:'Eugenio Montale',icon:'🪨'},
+    {id:'neorealismo',label:'Neorealismo italiano',icon:'📽️'},
+    {id:'paradiso',label:'Divina Commedia — Paradiso',icon:'⭐'},
+  ],
+  sis:[
+    {id:'laplace',label:'Trasformata di Laplace',icon:'📐'},
+    {id:'funz_trasf',label:'Funzione di trasferimento',icon:'⚡'},
+    {id:'retroazione',label:'Sistemi retroazionati',icon:'🔄'},
+    {id:'stabilita',label:'Stabilità (Nyquist, Routh)',icon:'⚖️'},
+    {id:'bode',label:'Diagrammi di Bode',icon:'📊'},
+    {id:'pid',label:'Regolatori PID',icon:'🎛️'},
+    {id:'risposta_gradino',label:'Risposta al gradino',icon:'📈'},
+    {id:'errori',label:'Errori a regime',icon:'🎯'},
+    {id:'sistemi_digitali',label:'Sistemi di controllo digitali',icon:'💻'},
+    {id:'campionamento',label:'Campionamento e Z-transform',icon:'🔢'},
+  ],
+  tpse:[
+    {id:'micro_pic',label:'Microcontrollori PIC/ARM',icon:'💾'},
+    {id:'bus_comm',label:'Bus SPI, I2C, UART, CAN',icon:'🔗'},
+    {id:'dsp',label:'Elaborazione digitale segnali (DSP)',icon:'〰️'},
+    {id:'fpga',label:'FPGA e reti logiche programmabili',icon:'🧩'},
+    {id:'trasduttori',label:'Trasduttori e condizionamento',icon:'📡'},
+    {id:'controllo',label:'Sistemi di controllo embedded',icon:'⚙️'},
+    {id:'power',label:'Elettronica di potenza',icon:'⚡'},
+    {id:'pcb',label:'Progettazione PCB',icon:'🔧'},
+    {id:'iot',label:'IoT e reti di sensori',icon:'🌐'},
+    {id:'amplif',label:'Amplificatori BJT e FET',icon:'📡'},
+    {id:'opamp',label:'Op-Amp e filtri attivi',icon:'🔁'},
+    {id:'adc_dac',label:'Convertitori ADC/DAC',icon:'↔️'},
+  ],
+  eng:[
+    {id:'industrial_rev',label:'Industrial Revolution',icon:'🏭'},
+    {id:'victorian',label:'Victorian Age & Society',icon:'🎩'},
+    {id:'modernism',label:'Modernism & Stream of Consciousness',icon:'🌊'},
+    {id:'dystopia',label:'Dystopian Fiction (Orwell, Huxley)',icon:'📕'},
+    {id:'dickens',label:'Charles Dickens',icon:'📚'},
+    {id:'orwell',label:'George Orwell — 1984 & Animal Farm',icon:'🐷'},
+    {id:'tech_eng',label:'Technical English — Electronics',icon:'🔌'},
+    {id:'globalization',label:'Globalization & Digital Society',icon:'🌍'},
+    {id:'environment',label:'Environment & Sustainability',icon:'🌱'},
+    {id:'ai_future',label:'AI & Future of Work',icon:'🤖'},
+  ],
+  civ:[
+    {id:'costituzione',label:'Costituzione italiana — principi fondamentali',icon:'📜'},
+    {id:'diritti',label:'Diritti e doveri del cittadino',icon:'⚖️'},
+    {id:'ue',label:'Unione Europea e istituzioni',icon:'🇪🇺'},
+    {id:'lavoro',label:'Lavoro e tutele costituzionali',icon:'👷'},
+    {id:'sostenibilita',label:'Agenda 2030 e sostenibilità',icon:'🌱'},
+    {id:'digitale',label:'Cittadinanza digitale',icon:'💻'},
+    {id:'salute',label:'Diritto alla salute e SSN',icon:'🏥'},
+    {id:'sicurezza',label:'Sicurezza sul lavoro (D.Lgs. 81/08)',icon:'⛑️'},
+    {id:'privacy',label:'Privacy e GDPR',icon:'🔐'},
+    {id:'energia',label:'Transizione energetica e rinnovabili',icon:'☀️'},
+  ]
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════════
+const st = {
+  sessions: {
+    ita:{mode:null,topic:null,diff:'standard',hist:[],quizItems:[],quizIdx:0,quizScore:0,answered:false},
+    sis:{mode:null,topic:null,diff:'standard',hist:[],quizItems:[],quizIdx:0,quizScore:0,answered:false},
+    tpse:{mode:null,topic:null,diff:'standard',hist:[],quizItems:[],quizIdx:0,quizScore:0,answered:false},
+    eng:{mode:null,topic:null,diff:'standard',hist:[],quizItems:[],quizIdx:0,quizScore:0,answered:false},
+    civ:{mode:null,topic:null,diff:'standard',hist:[],quizItems:[],quizIdx:0,quizScore:0,answered:false},
+  },
+  scritto: {
+    ita:{tipo:null,provaTxt:null,hist:[],lastScore:null},
+    tpse:{tipo:null,provaTxt:null,hist:[],lastScore:null},
+  },
+  punteggi:{p1:null,p2:null,orale:null},
+  crediti:{cr3:9,cr4:10,cr5:11},
+  prove_storico:[]
+};
+
+// Load from localStorage
+function loadSt(){
+  try{
+    const saved=localStorage.getItem('mat5L_v3');
+    if(saved){const d=JSON.parse(saved);
+      if(d.crediti)st.crediti=d.crediti;
+      if(d.punteggi)st.punteggi=d.punteggi;
+      if(d.prove_storico)st.prove_storico=d.prove_storico;
+    }
+  }catch(e){}
+}
+function saveSt(){
+  try{localStorage.setItem('mat5L_v3',JSON.stringify({crediti:st.crediti,punteggi:st.punteggi,prove_storico:st.prove_storico}));}catch(e){}
+}
+loadSt();
+
+// ═══════════════════════════════════════════════════════════════
+//  API — Gemini Flash (chiave salvata in localStorage)
+// ═══════════════════════════════════════════════════════════════
+function getGeminiKey(){return localStorage.getItem('mat5L_gemini_key')||'';}
+
+function updateApiDot(){
+  const dot=document.getElementById('api-dot');
+  const status=document.getElementById('api-status');
+  const k=getGeminiKey();
+  if(dot)dot.style.background=k?'#4ade80':'#ef4444';
+  if(status&&k)status.innerHTML='<span style="color:#4ade80">✓ Chiave salvata e attiva</span>';
+}
+
+function saveApiKey(){
+  const inp=document.getElementById('api-input');
+  const status=document.getElementById('api-status');
+  const k=(inp?.value||'').trim();
+  if(!k){status.innerHTML='<span style="color:#ef4444">Inserisci una chiave valida</span>';return;}
+  localStorage.setItem('mat5L_gemini_key',k);
+  inp.value='';
+  status.innerHTML='<span style="color:#4ade80">✓ Chiave salvata con successo!</span>';
+  updateApiDot();
+}
+
+// Mostra chiave esistente all'avvio
+(function(){
+  updateApiDot();
+  const inp=document.getElementById('api-input');
+  const k=getGeminiKey();
+  if(inp&&k)inp.placeholder='(chiave già salvata — incollane una nuova per cambiarla)';
+})();
+
+async function callAI(messages,sys,maxTok=1500){
+  const GEMINI_KEY=getGeminiKey();
+  if(!GEMINI_KEY){throw new Error('⚠️ Chiave API mancante — vai su "Chiave API" nel menu e inserisci la tua chiave Google Gemini (gratuita su aistudio.google.com)');}
+
+  const geminiContents=messages.map(m=>({
+    role:m.role==='assistant'?'model':'user',
+    parts:[{text:m.content}]
+  }));
+
+  const body={
+    system_instruction:{parts:[{text:sys}]},
+    contents:geminiContents,
+    generationConfig:{maxOutputTokens:maxTok,temperature:0.7}
+  };
+
+  let r;
+  try{
+    r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
+      {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  }catch(netErr){throw new Error('Errore di rete: verifica la connessione internet');}
+
+  if(!r.ok){
+    const e=await r.json().catch(()=>({}));
+    throw new Error(e.error?.message||`Errore API ${r.status}`);
+  }
+  const d=await r.json();
+  const text=d.candidates?.[0]?.content?.parts?.[0]?.text;
+  if(!text)throw new Error('Risposta AI vuota');
+  return text;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  NAV
+// ═══════════════════════════════════════════════════════════════
+const SCREEN_LABELS={'home':'Dashboard','crediti':'Crediti','orale-ita':'Italiano','orale-sis':'Sistemi','orale-tpse':'TPSE','orale-eng':'English','orale-civ':'Ed. Civica','scritto-ita':'1ª Prova','scritto-tpse':'2ª Prova','totale':'Punteggio finale','api':'Chiave API'};
+function nav(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id)?.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('nav-'+id)?.classList.add('active');
+  document.getElementById('topbar-title').textContent=SCREEN_LABELS[id]||id;
+  if(id==='totale')renderTotale();
+  if(id==='crediti')loadCreditiUI();
+  closeSidebar();
+}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+
+// ═══════════════════════════════════════════════════════════════
+//  TOPIC GRIDS
+// ═══════════════════════════════════════════════════════════════
+function buildTopicGrid(subj){
+  const el=document.getElementById(subj+'-topics');
+  if(!el)return;el.innerHTML='';
+  (TOPICS[subj]||[]).forEach(t=>{
+    const b=document.createElement('button');
+    b.className='topic-btn';
+    b.innerHTML=`<span class="t-icon">${t.icon||'📌'}</span><span class="t-name">${t.label}</span>`;
+    b.onclick=()=>{
+      el.querySelectorAll('.topic-btn').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel');
+      st.sessions[subj].topic=t.id;
+      st.sessions[subj].topicLabel=t.label;
+    };
+    el.appendChild(b);
+  });
+}
+['ita','sis','tpse','eng','civ'].forEach(buildTopicGrid);
+
+// ═══════════════════════════════════════════════════════════════
+//  DIFFICULTY
+// ═══════════════════════════════════════════════════════════════
+function setDiff(subj,diff){
+  st.sessions[subj].diff=diff;
+  ['std','hard','easy'].forEach(k=>{
+    document.getElementById(subj+'-diff-'+k)?.classList.remove('active');
+  });
+  const map={standard:'std',difficile:'hard',facile:'easy'};
+  document.getElementById(subj+'-diff-'+map[diff])?.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  MODE SELECT
+// ═══════════════════════════════════════════════════════════════
+function selMode(subj,mode){
+  st.sessions[subj].mode=mode;
+  ['rip','prova','orale'].forEach(m=>{
+    document.getElementById(subj+'-m-'+m)?.classList.remove('sel');
+  });
+  const modeIdMap={ripasso:'rip',prova:'prova',orale:'orale'};
+  document.getElementById(subj+'-m-'+(modeIdMap[mode]||mode))?.classList.add('sel');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  START SESSION
+// ═══════════════════════════════════════════════════════════════
+async function startSession(subj){
+  const s=st.sessions[subj];
+  if(!s.topic){alert('Seleziona un argomento prima di iniziare!');return;}
+  if(!s.mode){alert('Seleziona una modalità (Ripassa / Mettiti alla prova / Esame orale)!');return;}
+  s.hist=[];s.quizItems=[];s.quizIdx=0;s.quizScore=0;
+
+  document.getElementById(subj+'-mode-sel').style.display='none';
+  document.getElementById(subj+'-session').style.display='block';
+
+  const modeLabels={ripasso:'Ripasso',prova:'Quiz',orale:'Esame orale'};
+  document.getElementById(subj+'-mode-badge').textContent=modeLabels[s.mode]||s.mode;
+  document.getElementById(subj+'-topic-badge').textContent=s.topicLabel||s.topic;
+
+  if(s.mode==='ripasso'){
+    showChatUI(subj);
+    addMsg(subj+'-wrap','sys',`📚 Modalità ripasso — ${s.topicLabel}`);
+    await startRipasso(subj);
+  } else if(s.mode==='prova'){
+    document.getElementById(subj+'-messages').style.display='none';
+    document.getElementById(subj+'-input-row').style.display='none';
+    document.getElementById(subj+'-chips').style.display='none';
+    await startQuizSession(subj);
+  } else if(s.mode==='orale'){
+    showChatUI(subj);
+    addMsg(subj+'-wrap','sys',`🎤 Esame orale in corso — ${s.topicLabel}`);
+    await startOraleSession(subj);
+  }
+}
+
+function showChatUI(subj){
+  document.getElementById(subj+'-messages').style.display='block';
+  document.getElementById(subj+'-input-row').style.display='flex';
+  document.getElementById(subj+'-chips').style.display='flex';
+  document.getElementById(subj+'-quiz-area').innerHTML='';
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  RIPASSO MODE
+// ═══════════════════════════════════════════════════════════════
+async function startRipasso(subj){
+  const s=st.sessions[subj];
+  const sysMap={
+    ita:`Sei un professore di Letteratura italiana esperto che aiuta uno studente di 5L all'IISS Gravina (Gravina in Puglia) a ripassare "${s.topicLabel}" per la maturità 2026. Inizia con una spiegazione chiara e completa dell'argomento. Usa HTML semplice (strong, em, br, ul, li). Scrivi in italiano. Sii preciso ma comprensibile. Includi autori, opere, temi principali, corrente letteraria e contesto storico.`,
+    sis:`Sei un professore di Sistemi Automatici per il 5° anno ITT Elettronica all'IISS Gravina. Inizia spiegando "${s.topicLabel}" in modo chiaro. Usa formule in code tag, esempi numerici, schemi a blocchi descritti testualmente. HTML semplice, italiano.`,
+    tpse:`Sei un professore di TPSE (Tecnologie e Progettazione Sistemi Elettronici) per il 5° anno ITT all'IISS Gravina. Spiega "${s.topicLabel}" in modo completo. Usa HTML semplice, formule in code, esempi pratici. Italiano.`,
+    eng:`You are an English teacher helping a 5th year Italian student prepare for the maturità 2026 at IISS Gravina. Start by explaining "${s.topicLabel}" clearly in English. Use simple HTML (strong, em, ul, li). Include key authors, works, historical context and themes.`,
+    civ:`Sei un professore di Educazione Civica all'IISS Gravina. Spiega "${s.topicLabel}" per la maturità 2026. Fai riferimento alla Costituzione italiana, alle leggi pertinenti e all'attualità. HTML semplice, italiano.`
+  };
+  const lid=showLoad(subj+'-wrap');
+  try{
+    const intro=await callAI([{role:'user',content:`Inizia a spiegare l'argomento per il ripasso.`}],sysMap[subj],1800);
+    removeLoad(lid);
+    addMsg(subj+'-wrap','ai',intro);
+    s.hist=[{role:'user',content:'Inizia a spiegare.'},{role:'assistant',content:intro}];
+  }catch(e){removeLoad(lid);addMsg(subj+'-wrap','ai',`<em style="color:#fca5a5">⚠️ ${e.message}</em>`);}
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  ORALE MODE
+// ═══════════════════════════════════════════════════════════════
+async function startOraleSession(subj){
+  const s=st.sessions[subj];
+  const diffMap={
+    facile:'Fai domande semplici, incoraggia lo studente, non essere troppo tecnico.',
+    standard:'Fai domande di livello maturità standard con qualche approfondimento.',
+    difficile:'Fai domande avanzate, chiedi citazioni, contestualizzazione critica e collegamenti interdisciplinari.'
+  };
+  const sysMap={
+    ita:`Sei la commissione d'esame di Italiano per la maturità 2026 all'IISS Gravina di Gravina in Puglia. ${diffMap[s.diff]} Fai UNA sola domanda per messaggio. Inizia chiedendo dell'argomento "${s.topicLabel}". Tono formale ma non ostile. NON dare la risposta mentre interroghi. Se la risposta è vaga, chiedi di specificare. Scrivi in italiano.`,
+    sis:`Sei la commissione d'esame di Sistemi Automatici per la maturità 2026 all'IISS Gravina. ${diffMap[s.diff]} Argomento di partenza: "${s.topicLabel}". Fai UNA domanda per volta. Chiedi formule, dimostrazioni, applicazioni pratiche. Se il calcolo è sbagliato correggilo e spiega. Italiano.`,
+    tpse:`Sei la commissione d'esame di TPSE per la maturità 2026 all'IISS Gravina. ${diffMap[s.diff]} Argomento: "${s.topicLabel}". Fai UNA domanda per volta. Chiedi schemi circuitali descritti a parole, calcoli, applicazioni. Italiano.`,
+    eng:(()=>{
+      const diffEng={facile:'Ask simple encouraging questions.',standard:'Ask standard exam questions with some follow-ups.',difficile:'Ask advanced questions requiring textual references and critical analysis.'};
+      return `You are the English exam commission for the maturità 2026 at IISS Gravina. ${diffEng[s.diff]||diffEng.standard} Topic: "${s.topicLabel}". Ask ONE question at a time. Speak in English.`;
+    })(),
+    civ:`Sei la commissione d'esame di Educazione Civica per la maturità 2026 all'IISS Gravina. ${diffMap[s.diff]} Argomento: "${s.topicLabel}". Fai UNA domanda per volta. Collega gli argomenti alla Costituzione e all'attualità. Italiano.`
+  };
+  s.sys=sysMap[subj];
+  const lid=showLoad(subj+'-wrap');
+  try{
+    const q=await callAI([{role:'user',content:'Inizia l\'interrogazione.'}],s.sys);
+    removeLoad(lid);
+    addMsg(subj+'-wrap','ai',q);
+    s.hist=[{role:'user',content:'Inizia l\'interrogazione.'},{role:'assistant',content:q}];
+  }catch(e){removeLoad(lid);addMsg(subj+'-wrap','ai',`<em style="color:#fca5a5">⚠️ ${e.message}</em>`);}
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  QUIZ MODE
+// ═══════════════════════════════════════════════════════════════
+async function startQuizSession(subj){
+  const s=st.sessions[subj];
+  document.getElementById(subj+'-quiz-area').innerHTML=`<div class="empty">⏳ Generazione domande AI in corso...</div>`;
+  const sysMap={
+    ita:`Genera 8 domande a scelta multipla su "${s.topicLabel}" per la maturità italiana ITT 2026, livello 5° anno. Risposta SOLO JSON valido, zero testo extra, zero backtick. Formato: [{"q":"domanda","opts":["A","B","C","D"],"ans":0,"exp":"spiegazione breve"}] dove ans è l'indice 0-3 della risposta corretta.`,
+    sis:`Genera 8 domande a scelta multipla su "${s.topicLabel}" per la maturità Sistemi Automatici ITT 2026. SOLO JSON valido. Formato: [{"q":"domanda","opts":["A","B","C","D"],"ans":0,"exp":"spiegazione con formula se utile"}]`,
+    tpse:`Genera 8 domande a scelta multipla su "${s.topicLabel}" per la maturità TPSE ITT 2026. SOLO JSON valido. Formato: [{"q":"domanda","opts":["A","B","C","D"],"ans":0,"exp":"spiegazione tecnica"}]`,
+    eng:`Generate 8 multiple choice questions about "${s.topicLabel}" for the Italian maturità 2026 English exam. ONLY valid JSON, no extra text. Format: [{"q":"question","opts":["A","B","C","D"],"ans":0,"exp":"brief explanation"}]`,
+    civ:`Genera 8 domande a scelta multipla su "${s.topicLabel}" per la maturità Educazione Civica 2026. SOLO JSON valido. Formato: [{"q":"domanda","opts":["A","B","C","D"],"ans":0,"exp":"spiegazione con riferimento normativo"}]`
+  };
+  try{
+    const raw=await callAI([{role:'user',content:'Genera le domande.'}],sysMap[subj],2000);
+    let clean=raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+    // Extract JSON array even if wrapped in extra text
+    const arrMatch=clean.match(/\[[\s\S]*\]/);
+    if(arrMatch)clean=arrMatch[0];
+    s.quizItems=JSON.parse(clean);
+    if(!Array.isArray(s.quizItems)||s.quizItems.length===0)throw new Error('Nessuna domanda generata');
+    s.quizIdx=0;s.quizScore=0;
+    renderQuizQuestion(subj);
+  }catch(e){
+    document.getElementById(subj+'-quiz-area').innerHTML=`<div class="empty">⚠️ Errore: ${e.message}</div>`;
+  }
+}
+
+function renderQuizQuestion(subj){
+  const s=st.sessions[subj];
+  const area=document.getElementById(subj+'-quiz-area');
+  if(s.quizIdx>=s.quizItems.length){showQuizResult(subj);return;}
+  const q=s.quizItems[s.quizIdx];
+  s.answered=false;
+  const pct=s.quizIdx>0?Math.round(s.quizScore/s.quizIdx*100):0;
+  area.innerHTML=`
+    <div class="prog-row"><span class="prog-txt">Domanda ${s.quizIdx+1}/${s.quizItems.length} · Corrette: ${s.quizScore}</span></div>
+    <div class="score-bar"><div class="score-fill" style="width:${pct}%"></div></div>
+    <div class="quiz-card">
+      <p class="quiz-q">${q.q}</p>
+      ${q.opts.map((o,i)=>`<div class="quiz-opt" id="qo${subj}${i}" onclick="answerQuiz('${subj}',${i})"><span class="opt-letter">${String.fromCharCode(65+i)}</span><span>${o}</span></div>`).join('')}
+      <div class="quiz-exp" id="qexp-${subj}">${q.exp||''}</div>
+    </div>
+    <div id="qnext-${subj}" style="display:none;margin-top:.5rem">
+      <button class="btn btn-primary" onclick="nextQuiz('${subj}')">Prossima domanda →</button>
+    </div>`;
+}
+
+function answerQuiz(subj,idx){
+  const s=st.sessions[subj];
+  if(s.answered)return;
+  s.answered=true;
+  const q=s.quizItems[s.quizIdx];
+  for(let i=0;i<q.opts.length;i++){
+    const el=document.getElementById('qo'+subj+i);
+    if(!el)continue;
+    el.classList.add('disabled');
+    if(i===q.ans)el.classList.add('correct');
+    else if(i===idx&&idx!==q.ans)el.classList.add('wrong');
+  }
+  if(idx===q.ans)s.quizScore++;
+  document.getElementById('qexp-'+subj)?.classList.add('show');
+  document.getElementById('qnext-'+subj).style.display='block';
+}
+
+function nextQuiz(subj){st.sessions[subj].quizIdx++;renderQuizQuestion(subj);}
+
+function showQuizResult(subj){
+  const s=st.sessions[subj];
+  const pct=Math.round(s.quizScore/s.quizItems.length*100);
+  const grade=pct>=90?'🏆 Ottimo!':pct>=75?'👍 Buono':pct>=55?'✅ Sufficiente':'📖 Da ripassare';
+  const col=pct>=75?'var(--sis)':pct>=55?'#fcd34d':'#fca5a5';
+  document.getElementById(subj+'-quiz-area').innerHTML=`<div class="quiz-card" style="text-align:center;padding:2rem 1.25rem">
+    <div style="font-size:52px;font-weight:900;color:${col};line-height:1">${s.quizScore}<span style="font-size:22px;color:var(--text3)">/${s.quizItems.length}</span></div>
+    <div style="font-size:16px;font-weight:700;margin:.5rem 0">${grade}</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:1.5rem">${pct}% di risposte corrette</div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="startQuizSession('${subj}')">↺ Nuovo quiz</button>
+      <button class="btn" onclick="resetSession('${subj}')">← Indietro</button>
+    </div></div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  CHAT
+// ═══════════════════════════════════════════════════════════════
+async function sendChat(subj){
+  const input=document.getElementById(subj+'-input');
+  const text=input.value.trim();if(!text)return;
+  input.value='';
+  addMsg(subj+'-wrap','user',text);
+  const s=st.sessions[subj];
+  s.hist.push({role:'user',content:text});
+  const lid=showLoad(subj+'-wrap');
+  const sys=s.mode==='ripasso'?getRipassoSys(subj):s.sys||getOraleSys(subj);
+  try{
+    const reply=await callAI(s.hist,sys);
+    removeLoad(lid);
+    addMsg(subj+'-wrap','ai',reply);
+    s.hist.push({role:'assistant',content:reply});
+  }catch(e){removeLoad(lid);addMsg(subj+'-wrap','ai',`<em style="color:#fca5a5">⚠️ ${e.message}</em>`);}
+}
+
+function getRipassoSys(subj){
+  const s=st.sessions[subj];
+  const sysMap={
+    ita:`Sei un professore di Letteratura italiana per 5° anno ITT. Stai ripassando "${s.topicLabel}" con lo studente. Rispondi alle domande in modo chiaro. HTML semplice, italiano.`,
+    sis:`Sei un professore di Sistemi Automatici 5° anno ITT. Ripasso su "${s.topicLabel}". Usa formule in code tag, esempi numerici. HTML, italiano.`,
+    tpse:`Sei un professore di TPSE 5° anno ITT. Ripasso su "${s.topicLabel}". Tecnico ma comprensibile. HTML, italiano.`,
+    eng:`You are an English teacher. Reviewing "${s.topicLabel}" with the student. Answer questions clearly in English. Simple HTML.`,
+    civ:`Sei un professore di Ed. Civica 5° anno. Ripasso su "${s.topicLabel}". Italiano, HTML semplice.`
+  };
+  return sysMap[subj]||sysMap.ita;
+}
+
+function getOraleSys(subj){return st.sessions[subj].sys||getRipassoSys(subj);}
+
+async function quickChat(subj,text){
+  document.getElementById(subj+'-input').value=text;
+  await sendChat(subj);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  END SESSION — VALUTAZIONE
+// ═══════════════════════════════════════════════════════════════
+async function endSession(subj){
+  const s=st.sessions[subj];
+  if(s.hist.length<2){alert('Completa almeno qualche scambio prima della valutazione.');return;}
+  showChatUI(subj);
+  const evalSysMap={
+    ita:`Sei la commissione di Italiano maturità 2026. Il colloquio è terminato. Analizza la conversazione e produci: 1) Voto in trentesimi tra <strong> tag 2) Giudizio sintetico 3) Punti di forza (lista) 4) Punti da migliorare (lista) 5) Argomenti da ripassare urgentemente. HTML semplice, italiano.`,
+    sis:`Sei la commissione di Sistemi Automatici maturità 2026. Valuta il colloquio: 1) Voto in trentesimi tra <strong> tag 2) Giudizio 3) Forze 4) Debolezze 5) Cosa ripassare. HTML, italiano.`,
+    tpse:`Sei la commissione di TPSE maturità 2026. Valuta il colloquio: 1) Voto in trentesimi tra <strong> tag 2) Giudizio 3) Forze 4) Debolezze 5) Cosa ripassare. HTML, italiano.`,
+    eng:`You are the English exam commission. Evaluate the oral: 1) Grade out of 30 in <strong> tags 2) Brief judgement 3) Strengths (list) 4) Weaknesses (list) 5) Topics to revise. English, simple HTML.`,
+    civ:`Sei la commissione di Ed. Civica maturità 2026. Valuta il colloquio: 1) Voto in trentesimi tra <strong> 2) Giudizio 3) Forze 4) Debolezze 5) Cosa ripassare. HTML, italiano.`
+  };
+  addMsg(subj+'-wrap','sys','📋 Generazione valutazione finale...');
+  const lid=showLoad(subj+'-wrap');
+  try{
+    const conv=s.hist.map(m=>`${m.role==='user'?'Studente':'Commissione'}: ${m.content}`).join('\n\n');
+    const eval_=await callAI([{role:'user',content:`Ecco la conversazione:\n\n${conv}\n\nFornisci la valutazione.`}],evalSysMap[subj],1500);
+    removeLoad(lid);
+    addMsg(subj+'-wrap','ai',eval_);
+
+    // Save orale score
+    const match=eval_.match(/(\d{1,2})\/30/);
+    if(match){
+      const pts=Math.round(parseInt(match[1])*20/30);
+      if(!st.punteggi.orale||pts>st.punteggi.orale)st.punteggi.orale=pts;
+      st.prove_storico.push({data:new Date().toLocaleDateString('it-IT'),materia:subj,tipo:'orale',voto:match[1]+'/30'});
+      saveSt();updateSidebarTotal();
+    }
+  }catch(e){removeLoad(lid);addMsg(subj+'-wrap','ai',`<em style="color:#fca5a5">⚠️ ${e.message}</em>`);}
+}
+
+function resetSession(subj){
+  st.sessions[subj]={mode:null,topic:null,diff:'standard',hist:[],quizItems:[],quizIdx:0,quizScore:0,answered:false};
+  document.getElementById(subj+'-mode-sel').style.display='block';
+  document.getElementById(subj+'-session').style.display='none';
+  document.getElementById(subj+'-wrap').innerHTML='';
+  document.getElementById(subj+'-quiz-area').innerHTML='';
+  document.querySelectorAll('#'+subj+'-topics .topic-btn').forEach(b=>b.classList.remove('sel'));
+  document.querySelectorAll('#'+subj+'-mode-sel .mode-card').forEach(b=>b.classList.remove('sel'));
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SCRITTO
+// ═══════════════════════════════════════════════════════════════
+function selScritto(subj,tipo){
+  const prefix=subj==='ita'?'sita':'stpse';
+  document.querySelectorAll(`[id^="${prefix}-"]`).forEach(el=>{if(el.classList.contains('mode-card'))el.classList.remove('sel');});
+  const mapping={A:'sita-A',B:'sita-B',C:'sita-C',amplificatori:'stpse-amp',digitale:'stpse-dig',opamp:'stpse-op',progetto:'stpse-prg',mista:'stpse-mix'};
+  document.getElementById(mapping[tipo])?.classList.add('sel');
+  st.scritto[subj].tipo=tipo;
+}
+
+async function startScritto(subj){
+  const s=st.scritto[subj];
+  if(!s.tipo){alert('Seleziona il tipo di prova!');return;}
+  const prefix=subj==='ita'?'sita':'stpse';
+  document.getElementById(prefix+'-setup').style.display='none';
+  document.getElementById(prefix+'-session').style.display='block';
+  document.getElementById(prefix+'-voto-box').style.display='none';
+  document.getElementById(prefix+'-analisi').style.display='none';
+  document.getElementById(prefix+'-label').textContent=subj==='ita'?'1ª Prova — Italiano':'2ª Prova — TPSE';
+  s.hist=[];s.lastScore=null;
+  document.getElementById(prefix+'-wrap').innerHTML='';
+
+  const sysMap={
+    ita:{
+      A:`Sei la commissione maturità 2026. Genera UNA traccia di Tipologia A (analisi del testo letterario) di livello ministeriale, ispirata alle prove degli anni 2020-2024. Scegli un testo significativo (poesia o prosa) di autori come Montale, Svevo, Pirandello, Pascoli, D'Annunzio, Ungaretti. Includi: testo originale (max 15 righe), titolo, autore, data. Poi formula 4-5 domande specifiche su: analisi formale, temi, contesto storico-letterario, interpretazione critica. In italiano. Usa HTML semplice.`,
+      B:`Sei la commissione maturità 2026. Genera UNA traccia di Tipologia B (analisi e produzione testo argomentativo) di livello ministeriale, ispirata alle prove reali 2020-2024. Includi: un breve testo fonte (articolo, saggio, discorso), titolo e autore. Poi chiedi allo studente di: 1) riassumere la tesi del testo 2) analizzare argomenti e strategie retoriche 3) produrre un testo argomentativo che prenda posizione. In italiano. HTML semplice.`,
+      C:`Sei la commissione maturità 2026. Genera UNA traccia di Tipologia C (riflessione critica espositivo-argomentativa) di livello ministeriale, ispirata alle prove reali 2020-2024. Proponi un tema attuale e significativo (tecnologia, ambiente, memoria storica, lavoro, identità). Fornisci un breve stimolo (citazione o dato), poi chiedi allo studente di sviluppare una riflessione argomentata di almeno 300 parole. In italiano. HTML semplice.`
+    },
+    tpse:{
+      amplificatori:`Sei la commissione di TPSE maturità 2026 ITT Elettronica. Genera UNA traccia ministeriale su amplificatori BJT/FET. Deve includere: 1) Schema circuitale descritto con dati numerici (Vcc, Rc, Re, βdc ecc.) 2) Almeno 4 quesiti: calcolo punto Q, guadagno, risposta in frequenza, confronto configurazioni. Livello realistico come nelle prove ministeriali 2020-2024. HTML semplice.`,
+      digitale:`Genera UNA traccia TPSE maturità 2026 su sistemi digitali/microcontrollori. Includi: sistema DAQ o sistema embedded con specifiche numeriche, 4 quesiti su ADC, microcontrollore, protocollo comunicazione, programmazione. Livello ministeriale. HTML semplice.`,
+      opamp:`Genera UNA traccia TPSE maturità 2026 su Op-Amp e filtri attivi. Includi: circuito con op-amp e dati numerici, 4 quesiti su configurazione, guadagno, filtro, applicazione. Livello ministeriale. HTML semplice.`,
+      progetto:`Genera UNA traccia TPSE maturità 2026 tipo progetto sistema completo. Specifica: sistema con requisiti (es. stazione meteo, sistema antintrusione, controllo motore), 5 quesiti su architettura, componenti, calcoli, programmazione, PCB. Livello ministeriale. HTML semplice.`,
+      mista:`Genera UNA traccia TPSE maturità 2026 mista (stile reale ministeriale) che combina analogico e digitale. Prima parte: problema analogico (amplificatore o filtro). Seconda parte: problema digitale (ADC, µC, comunicazione). 5-6 quesiti totali con dati numerici reali. HTML semplice.`
+    }
+  };
+  const sys=sysMap[subj][s.tipo];
+  const provEl=document.getElementById(prefix+'-prova');
+  provEl.innerHTML='<div class="loading" style="display:inline-flex"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div> Generazione prova in corso...';
+  try{
+    const prova=await callAI([{role:'user',content:'Genera la prova ora.'}],sys,2500);
+    s.provaTxt=prova;
+    provEl.innerHTML=prova;
+    s.hist=[{role:'user',content:'Ho ricevuto la prova.'},{role:'assistant',content:'Perfetto! Quando sei pronto, inviami la tua soluzione e la correggo con voto in ventesimi.'}];
+    addMsg(prefix+'-wrap','ai','Prova generata! Scrivi il tuo elaborato/soluzione nella casella sotto e invialo. Puoi anche usare i tasti rapidi per ricevere suggerimenti o la correzione con voto.');
+  }catch(e){provEl.innerHTML=`<em style="color:#fca5a5">⚠️ Errore: ${e.message}</em>`;}
+}
+
+async function sendScritto(subj){
+  const prefix=subj==='ita'?'sita':'stpse';
+  const input=document.getElementById(prefix+'-input');
+  const text=input.value.trim();if(!text)return;
+  input.value='';
+  const s=st.scritto[subj];
+  addMsg(prefix+'-wrap','user',text);
+  s.hist.push({role:'user',content:text});
+  const lid=showLoad(prefix+'-wrap');
+  const sys=subj==='ita'
+    ?`Sei un commissario di Italiano maturità 2026. Lo studente ha ricevuto una traccia di tipo ${s.tipo} e sta inviando il suo elaborato. Rispondi in modo costruttivo: correggi errori, suggerisci miglioramenti, e quando ti chiede un voto assegnalo in ventesimi con griglia (contenuto, forma, coerenza, originalità). HTML semplice, italiano.`
+    :`Sei un commissario di TPSE maturità 2026 ITT Elettronica. Lo studente sta risolvendo una prova su "${s.tipo}". Correggi la soluzione: identifica errori concettuali e di calcolo, spiega il metodo corretto. Quando ti chiede un voto, assegnalo in ventesimi con griglia dettagliata. HTML semplice, italiano.`;
+  try{
+    const reply=await callAI(s.hist,sys,2000);
+    removeLoad(lid);
+    addMsg(prefix+'-wrap','ai',reply);
+    s.hist.push({role:'assistant',content:reply});
+    // Check if score mentioned
+    extractAndShowScore(subj,reply);
+  }catch(e){removeLoad(lid);addMsg(prefix+'-wrap','ai',`<em style="color:#fca5a5">⚠️ ${e.message}</em>`);}
+}
+
+async function askScritto(subj,text){
+  const prefix=subj==='ita'?'sita':'stpse';
+  document.getElementById(prefix+'-input').value=text;
+  await sendScritto(subj);
+}
+
+function extractAndShowScore(subj,text){
+  const prefix=subj==='ita'?'sita':'stpse';
+  const match=text.match(/(\d{1,2})\s*\/\s*20/);
+  if(match){
+    const score=parseInt(match[1]);
+    const votoBox=document.getElementById(prefix+'-voto-box');
+    document.getElementById(prefix+'-score').textContent=score;
+    const grade=score>=18?'Ottimo':'Sufficiente';
+    const labels={20:'Eccellente',19:'Ottimo',18:'Buono',17:'Discreto',16:'Quasi sufficiente',15:'Sufficiente',14:'Quasi sufficiente',13:'Insufficiente'};
+    document.getElementById(prefix+'-grade-label').textContent=labels[score]||(score>=15?'Sufficiente':'Insufficiente');
+    votoBox.style.display='block';
+    st.scritto[subj].lastScore=score;
+  }
+}
+
+function savePunteggioScritto(subj){
+  const s=st.scritto[subj];
+  if(s.lastScore===null){alert('Nessun punteggio da salvare ancora. Chiedi prima la correzione con voto.');return;}
+  if(subj==='ita')st.punteggi.p1=s.lastScore;
+  else st.punteggi.p2=s.lastScore;
+  st.prove_storico.push({data:new Date().toLocaleDateString('it-IT'),materia:subj,tipo:'scritto',voto:s.lastScore+'/20'});
+  saveSt();updateSidebarTotal();
+  alert(`Punteggio ${s.lastScore}/20 salvato! Vai a "Punteggio Finale" per il riepilogo.`);
+}
+
+function resetScritto(subj){
+  const prefix=subj==='ita'?'sita':'stpse';
+  st.scritto[subj]={tipo:null,provaTxt:null,hist:[],lastScore:null};
+  document.getElementById(prefix+'-setup').style.display='block';
+  document.getElementById(prefix+'-session').style.display='none';
+  document.getElementById(prefix+'-wrap').innerHTML='';
+  document.querySelectorAll(`[id^="${prefix}-"].mode-card`).forEach(el=>el.classList.remove('sel'));
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  CREDITI
+// ═══════════════════════════════════════════════════════════════
+function loadCreditiUI(){
+  document.getElementById('cr3').value=st.crediti.cr3;
+  document.getElementById('cr4').value=st.crediti.cr4;
+  document.getElementById('cr5').value=st.crediti.cr5;
+  updateCreditiTotal();
+}
+function saveCrediti(){
+  st.crediti.cr3=parseInt(document.getElementById('cr3').value)||9;
+  st.crediti.cr4=parseInt(document.getElementById('cr4').value)||10;
+  st.crediti.cr5=parseInt(document.getElementById('cr5').value)||11;
+  updateCreditiTotal();saveSt();updateSidebarTotal();
+}
+function updateCreditiTotal(){
+  const tot=st.crediti.cr3+st.crediti.cr4+st.crediti.cr5;
+  document.getElementById('cr-total').textContent=tot;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  TOTALE
+// ═══════════════════════════════════════════════════════════════
+function getTotaleCrediti(){return st.crediti.cr3+st.crediti.cr4+st.crediti.cr5;}
+function updateSidebarTotal(){
+  const t=calcTotale();
+  document.getElementById('sidebar-total').textContent=t||'0';
+  document.getElementById('hs-crediti').textContent=getTotaleCrediti()+'/40';
+  document.getElementById('hs-prove').textContent=st.prove_storico.length;
+  document.getElementById('hs-totale').textContent=t||'–';
+}
+
+function calcTotale(){
+  const cr=getTotaleCrediti();
+  const p1=st.punteggi.p1||0;
+  const p2=st.punteggi.p2||0;
+  const or=st.punteggi.orale||0;
+  const bonus=parseInt(document.getElementById('man-bonus')?.value)||0;
+  if(p1===0&&p2===0&&or===0)return null;
+  return Math.min(100,cr+p1+p2+or+bonus);
+}
+
+function ricalcolaTotale(){
+  const p1=document.getElementById('man-p1').value;
+  const p2=document.getElementById('man-p2').value;
+  const or=document.getElementById('man-or').value;
+  const bonus=document.getElementById('man-bonus').value;
+  if(p1)st.punteggi.p1=parseInt(p1);
+  if(p2)st.punteggi.p2=parseInt(p2);
+  if(or)st.punteggi.orale=parseInt(or);
+  saveSt();renderTotale();
+}
+
+function renderTotale(){
+  const cr=getTotaleCrediti();
+  const p1=st.punteggi.p1;
+  const p2=st.punteggi.p2;
+  const or=st.punteggi.orale;
+  const bonus=parseInt(document.getElementById('man-bonus')?.value)||0;
+
+  document.getElementById('tot-cr').textContent=cr+'/40';
+  document.getElementById('tot-p1').textContent=(p1!==null?p1+'/20':'–');
+  document.getElementById('tot-p2').textContent=(p2!==null?p2+'/20':'–');
+  document.getElementById('tot-or').textContent=(or!==null?or+'/20':'–');
+  document.getElementById('tot-bonus').textContent=bonus>0?'+'+bonus:'0';
+
+  // sync manual fields
+  if(p1!==null&&!document.getElementById('man-p1').value)document.getElementById('man-p1').value=p1;
+  if(p2!==null&&!document.getElementById('man-p2').value)document.getElementById('man-p2').value=p2;
+  if(or!==null&&!document.getElementById('man-or').value)document.getElementById('man-or').value=or;
+
+  const tot=Math.min(100,cr+(p1||0)+(p2||0)+(or||0)+bonus);
+  if((p1||0)+(p2||0)+(or||0)>0){
+    document.getElementById('tot-grand').textContent=tot;
+    const mention=tot===100?'🏆 LODE':tot>=90?'✨ Eccellente':tot>=80?'🎉 Ottimo':tot>=70?'👍 Buono':tot>=60?'✅ Sufficiente':'📖 Insufficiente';
+    document.getElementById('tot-mention').textContent=mention+' ('+tot+'/100)';
+  } else {
+    document.getElementById('tot-grand').textContent='–';
+    document.getElementById('tot-mention').textContent='Inserisci i punteggi delle prove per calcolare il totale';
+  }
+
+  // Storico
+  const st2=document.getElementById('tot-storico');
+  if(st.prove_storico.length===0){st2.innerHTML='<div class="empty">Nessuna prova salvata ancora.</div>';return;}
+  st2.innerHTML=[...st.prove_storico].reverse().map(p=>`<div class="history-item"><span style="color:var(--text3)">${p.data}</span><span class="badge b-${p.materia}">${p.materia.toUpperCase()}</span><span class="badge b-acc">${p.tipo}</span><span style="font-weight:700">${p.voto}</span></div>`).join('');
+
+  updateSidebarTotal();
+}
+
+async function calcolaVotoAI(){
+  const cr=getTotaleCrediti();
+  const p1=st.punteggi.p1;const p2=st.punteggi.p2;const or=st.punteggi.orale;
+  const bonus=parseInt(document.getElementById('man-bonus').value)||0;
+  const box=document.getElementById('tot-ai-box');
+  const chatBox=document.getElementById('tot-ai-chat');
+  box.style.display='none';chatBox.style.display='block';
+  const wrap=document.getElementById('tot-ai-wrap');wrap.innerHTML='';
+  const lid=showLoad('tot-ai-wrap');
+  const sys=`Sei un esperto di normativa maturità italiana 2026. Dato il seguente punteggio, fornisci: 1) stima del voto finale su 100 con motivazione 2) se è possibile la lode e perché 3) consigli per migliorare il voto orale 4) confronto con medie nazionali INVALSI 2024. HTML semplice, italiano, tono incoraggiante.`;
+  const msg=`Crediti: ${cr}/40. Prima prova: ${p1||'non ancora svolta'}/20. Seconda prova: ${p2||'non ancora svolta'}/20. Colloquio orale: ${or||'non ancora svolto'}/20. Bonus: ${bonus}/5.`;
+  try{
+    const reply=await callAI([{role:'user',content:msg}],sys,1500);
+    removeLoad(lid);addMsg('tot-ai-wrap','ai',reply);
+  }catch(e){removeLoad(lid);addMsg('tot-ai-wrap','ai',`<em style="color:#fca5a5">⚠️ ${e.message}</em>`);}
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════════════
+function addMsg(wrapId,type,html){
+  const wrap=document.getElementById(wrapId);if(!wrap)return;
+  const d=document.createElement('div');
+  if(type==='user')d.className='msg-user';
+  else if(type==='sys')d.className='msg-sys';
+  else d.className='msg-ai';
+  d.innerHTML=html;
+  wrap.appendChild(d);
+  wrap.parentElement.scrollTop=wrap.parentElement.scrollHeight;
+  return d;
+}
+function showLoad(wrapId){
+  const wrap=document.getElementById(wrapId);if(!wrap)return'';
+  const d=document.createElement('div');
+  d.className='loading';d.id='ld'+Date.now();
+  d.innerHTML='<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+  wrap.appendChild(d);
+  wrap.parentElement.scrollTop=wrap.parentElement.scrollHeight;
+  return d.id;
+}
+function removeLoad(lid){document.getElementById(lid)?.remove();}
+
+function toggleAcc(head){
+  const body=head.nextElementSibling;
+  body.classList.toggle('open');
+  head.querySelector('span:last-child').textContent=body.classList.contains('open')?'▴':'▾';
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════
+loadCreditiUI();
+updateSidebarTotal();
+</script>
+</body>
+</html>
