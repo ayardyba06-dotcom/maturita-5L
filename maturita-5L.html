@@ -1042,15 +1042,22 @@ async function callAI(messages,sys,maxTok=1500){
     parts:[{text:m.content}]
   }));
 
-  const body={
-    system_instruction:{parts:[{text:sys}]},
-    contents:geminiContents,
-    generationConfig:{maxOutputTokens:maxTok,temperature:0.7}
+  const body = {
+  system_instruction: { parts: [{ text: sys }] },
+  contents: geminiContents,
+  generationConfig: { maxOutputTokens: maxTok, temperature: 0.7 },
+  safetySettings: [
+    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+  ]
+};
   };
 
   let r;
   try{
-    r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
+    r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,
       {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
   }catch(netErr){throw new Error('Errore di rete: verifica la connessione internet');}
 
